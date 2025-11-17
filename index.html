@@ -1,490 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wahyudiyanto Page</title>
-    <link rel="icon" type="image/png" href="LOGOW.png" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: "#f3ece6",
-              secondary: "#cbdbe7",
-              accent: "#f8a1a6",
-              gradient1: "#f8e8dc",
-              gradient2: "#bdd4e7",
-              gradient3: "#fbc2eb",
-              gradient4: "#a6c0fe",
-            },
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wahyudiyanto Page</title>
+  <link rel="icon" type="image/png" href="LOGOW.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bone: "#f7f5ef",
+            softgray: "#dcdcdc",
+            dimgray: "#6a6a6a",
+            dark: "#2b2b2b",
           },
         },
-      };
-    </script>
-    <style>
-      /* Background Gradient */
-      .gradient-bg {
-        background: linear-gradient(
-          135deg,
-          rgba(248, 232, 220, 1) 0%,
-          rgba(189, 212, 231, 1) 40%,
-          rgba(251, 194, 235, 1) 70%,
-          rgba(166, 192, 254, 1) 100%
-        );
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-      }
+      },
+    };
+  </script>
 
-      /* Noise Overlay */
-      .noise-overlay {
-        background: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
-        opacity: 0.15;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-      }
+  <style>
+    body {
+      background-color: #f7f5ef;
+    }
+    /* Minimal shadow */
+    .soft-card {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
 
-      /* Smooth hover animation */
-      .hover-gradient {
-        transition: all 0.3s ease-in-out;
-      }
-      .hover-gradient:hover {
-        transform: scale(1.05);
-      }
-    </style>
-    <style>
-      /* Animasi Pop-up */
-      #chatbot-popup {
-        transition: transform 0.3s ease-in-out, opacity 0.3s;
-        transform: translateY(100%);
-        opacity: 0;
-      }
-      #chatbot-popup.visible {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    </style>
-  </head>
-  <body class="relative text-gray-900 min-h-screen">
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
+    /* Chatbot Popup Animation */
+    #chatbot-popup {
+      transition: transform 0.3s ease-in-out, opacity 0.3s;
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    #chatbot-popup.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
 
-    <!-- Background -->
-    <div class="absolute inset-0 gradient-bg"></div>
-    <div class="absolute inset-0 noise-overlay"></div>
+<body class="text-dark min-h-screen font-sans">
 
-    <!-- Header -->
-    <header
-      x-data="{ open: false, lastScroll: 0, visible: true }"
-      x-init="
-    window.addEventListener('scroll', () => {
-      let currentScroll = window.pageYOffset;
-      visible = (currentScroll < lastScroll) || (currentScroll < 50);
-      lastScroll = currentScroll;
-    });
-  "
-      x-bind:class="visible ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'"
-      class="w-full py-4 bg-gradient-to-r from-gradient1 via-gradient2 to-gradient3 bg-opacity-80 backdrop-blur-lg shadow-lg fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out"
-    >
-      <nav class="container mx-auto flex justify-between items-center px-6">
-        <!-- Logo & Title Wrapper -->
-        <div class="flex items-center gap-3">
-          <a href="index.html">
-            <img
-              src="LOGOW.png"
-              alt="Logo"
-              class="h-10 md:h-12 lg:h-14 w-auto"
-            />
-          </a>
-          <h1 class="text-xl font-bold text-shadow text-left">
-            Who’s This Guy?
-          </h1>
-        </div>
-
-        <!-- Desktop Menu -->
-        <ul class="hidden md:flex gap-6 text-gray-900 font-semibold">
-          <li>
-            <a href="index.html" class="hover:text-gray-600 transition">Home</a>
-          </li>
-          <li>
-            <a href="portfolio.html" class="hover:text-gray-600 transition"
-              >Portfolio</a
-            >
-          </li>
-          <li>
-            <a href="resume.html" class="hover:text-gray-600 transition"
-              >Resume</a
-            >
-          </li>
-          <li>
-            <a href="activity.html" class="hover:text-gray-600 transition"
-              >Activity</a
-            >
-          </li>
-          <li>
-            <a href="contact.html" class="hover:text-gray-600 transition"
-              >Contact</a
-            >
-          </li>
-        </ul>
-
-        <!-- Mobile Menu Button -->
-        <button
-          @click="open = !open"
-          class="md:hidden text-gray-900 focus:outline-none z-50 relative"
-        >
-          <svg
-            x-show="!open"
-            class="w-8 h-8"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            ></path>
-          </svg>
-        </button>
-      </nav>
-
-      <!-- Mobile Menu (Dynamic Island Effect) -->
-      <div
-        x-show="open"
-        @click.away="open = false"
-        class="fixed top-3 left-1/2 transform -translate-x-1/2 w-[90%] max-w-lg bg-gradient-to-r from-gradient1 via-gradient2 to-gradient3 shadow-lg rounded-full z-50 transition-all duration-300 ease-in-out"
-        x-transition:enter="transform transition ease-out duration-300"
-        x-transition:enter-start="scale-50 opacity-0"
-        x-transition:enter-end="scale-100 opacity-100"
-        x-transition:leave="transform transition ease-in duration-300"
-        x-transition:leave-start="scale-100 opacity-100"
-        x-transition:leave-end="scale-50 opacity-0"
-      >
-        <nav class="px-3 py-2">
-          <ul
-            class="flex flex-row justify-center gap-6 text-gray-900 text-lg font-semibold"
-          >
-            <li>
-              <a
-                href="index.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Home</a
-              >
-            </li>
-            <li>
-              <a
-                href="portfolio.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Portfolio</a
-              >
-            </li>
-            <li>
-              <a
-                href="resume.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Resume</a
-              >
-            </li>
-            <li>
-              <a
-                href="activity.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Activity</a
-              >
-            </li>
-            <li>
-              <a
-                href="contact.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Contact</a
-              >
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-
-    <!-- Chatbot Button -->
-    <div class="fixed bottom-6 right-6 z-50">
-      <button
-        id="chatbot-button"
-        class="bg-gradient-to-r from-gradient3 to-gradient4 hover:from-gradient4 hover:to-gradient3 text-gray-900 font-semibold py-3 px-6 rounded-full shadow-lg hover-gradient flex items-center gap-2"
-      >
-        <i class="fas fa-comment-dots"></i> Ask Wahyu's AI!
-      </button>
-    </div>
-
-    <!-- Chatbot Popup -->
-    <div
-      id="chatbot-popup"
-      class="fixed bottom-24 right-6 w-96 max-w-full bg-white rounded-lg shadow-lg flex flex-col hidden"
-      style="height: 70vh; z-index: 100"
-    >
-      <!-- Chat Header -->
-      <div
-        class="bg-gradient-to-r from-gradient3 to-gradient4 text-white p-4 rounded-t-lg flex justify-between items-center"
-      >
-        <h3 class="font-semibold">Wade</h3>
-        <button id="close-chatbot" class="text-white hover:text-gray-200">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-
-      <!-- Chat Messages -->
-      <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50">
-        <!-- Pesan default -->
-        <div class="text-center text-gray-500">
-          Hi! I'm Wade, Wahyu's personal AI. You can ask me anything about Him,
-          or ask me a general question and I'll try to answer it!
-        </div>
-        <!-- Loading indicator -->
-        <div id="loading" class="text-center hidden">
-          <i class="fas fa-spinner fa-spin"></i> Connecting to server...
-        </div>
-      </div>
-
-      <!-- Chat Input -->
-      <div class="p-4 bg-gray-100 rounded-b-lg">
-        <div class="flex gap-2">
-          <input
-            id="chat-input"
-            type="text"
-            class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gradient3"
-            placeholder="Type a message..."
-          />
-          <button
-            id="send-message"
-            class="bg-gradient-to-r from-gradient3 to-gradient4 hover:from-gradient4 hover:to-gradient3 text-white font-semibold px-4 rounded-lg"
-          >
-            Send
-          </button>
-        </div>
-        <!-- Rekomendasi Pertanyaan -->
-        <div id="suggestions" class="mt-2 flex flex-wrap gap-2">
-          <button
-            class="suggestion-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300"
-          >
-            Who is Wahyu?
-          </button>
-          <button
-            class="suggestion-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300"
-          >
-            What are Wahyu's skills?
-          </button>
-          <button
-            class="suggestion-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300"
-          >
-            What projects has Wahyu worked on?
-          </button>
-        </div>
-      </div>
-    </div>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const chatbotButton = document.getElementById("chatbot-button");
-        const chatbotPopup = document.getElementById("chatbot-popup");
-        const closeChatbot = document.getElementById("close-chatbot");
-        const chatInput = document.getElementById("chat-input");
-        const sendMessageButton = document.getElementById("send-message");
-        const chatMessages = document.getElementById("chat-messages");
-        const suggestionButtons = document.querySelectorAll(".suggestion-btn");
-        const loadingElement = document.getElementById("loading");
-
-        // Toggle chatbot popup
-        chatbotButton.addEventListener("click", () => {
-          chatbotPopup.classList.toggle("visible");
-          chatbotPopup.classList.toggle("hidden");
-        });
-
-        // Close chatbot popup
-        closeChatbot.addEventListener("click", () => {
-          chatbotPopup.classList.remove("visible");
-          chatbotPopup.classList.add("hidden");
-        });
-
-        // Send message
-        sendMessageButton.addEventListener("click", sendMessage);
-        chatInput.addEventListener("keypress", function (event) {
-          if (event.key === "Enter") {
-            sendMessage();
-          }
-        });
-
-        // Suggestion buttons
-        suggestionButtons.forEach((button) => {
-          button.addEventListener("click", function () {
-            chatInput.value = this.innerText;
-            sendMessage();
-          });
-        });
-
-        // Function to send message
-        const API_URL = "https://portfolio-wahyu-website.onrender.com/chatbot";
-        async function sendMessage() {
-          const message = chatInput.value.trim();
-          if (!message) return;
-
-          // Add user message to chat
-          chatMessages.innerHTML += `
-        <div class="text-right mb-2">
-          <div class="inline-block bg-gradient-to-r from-gradient3 to-gradient4 text-white p-2 rounded-lg">
-            ${message}
-          </div>
-        </div>
-      `;
-          chatInput.value = "";
-
-          // Show loading indicator
-          loadingElement.classList.remove("hidden");
-
-          // Send message to backend
-          try {
-            const response = await fetch(API_URL, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ message: message }),
-            });
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            // Hide loading indicator
-            loadingElement.classList.add("hidden");
-
-            // Add bot response to chat
-            chatMessages.innerHTML += `
-          <div class="text-left mb-2">
-            <div class="inline-block bg-gray-200 text-gray-900 p-2 rounded-lg">
-              ${data.response}
-            </div>
-          </div>
-        `;
-            // Scroll to bottom
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-          } catch (error) {
-            console.error("Error:", error);
-            // Hide loading indicator
-            loadingElement.classList.add("hidden");
-
-            chatMessages.innerHTML += `
-          <div class="text-left mb-2">
-            <div class="inline-block bg-red-100 text-red-900 p-2 rounded-lg">
-              Error: Could not connect to the server. Please try again later.
-            </div>
-          </div>
-        `;
-          }
-        }
-      });
-    </script>
-
-    <!-- Hero Section -->
-    <section
-      class="lg:pt-32 md:pt-28 pt-24 pb-12 px-6 md:px-12 min-h-screen flex flex-col md:flex-row items-center justify-center text-center md:text-left"
-    >
-      <!-- Profile Image -->
-      <div class="w-full md:w-1/2 flex justify-center">
-        <div
-          class="relative w-[70%] max-w-xs md:max-w-md rounded-xl shadow-lg overflow-hidden"
-        >
-          <img
-            src="src/assets/profile_picture.jpg"
-            alt="Profile Picture"
-            class="w-full h-auto object-cover"
-          />
-        </div>
-      </div>
-
-      <!-- Text -->
-<div class="w-full md:w-1/2 mt-8 md:mt-0">
-        <h2 class="text-lg md:text-xl text-gray-700 text-shadow">
-          Hello, It's Me
-        </h2>
-        <h1
-          class="font-extrabold text-gray-900 mt-2 text-shadow"
-          style="font-size: clamp(2rem, 5vw, 4rem)"
-        >
-          Wahyu
-        </h1>
-        <h3 class="text-xl md:text-2xl text-gray-700 mt-2 text-shadow">
-          And I'm a <span class="text-gray-900">Data Analyst</span>
-        </h3>
-
-        <p
-          class="text-gray-800 mt-4 max-w-lg mx-auto md:mx-0 leading-relaxed text-shadow"
-        >
-          I specialize in transforming complex data into clear, actionable insights. My work is about finding the hidden stories within numbers and using them to drive powerful decisions.
-        </p>
-
-        <p class="text-gray-800 mt-4 max-w-lg mx-auto md:mx-0 text-shadow">
-          Beyond analytics, I have a passion for creative problem-solving. This website is a self-taught project that showcases my drive to learn and build. I am committed to mastering my craft and delivering excellence.
-        </p>
-
-        <p class="text-gray-800 mt-4 max-w-lg mx-auto md:mx-0 text-shadow">
-          My curiosity is what keeps me going. I am constantly expanding my skill set, driven by a genuine passion for solving challenges.
-        </p>
-
-        <a
-          href="contact.html"
-          class="mt-6 inline-block px-6 py-3 bg-gradient-to-r from-gradient3 to-gradient4 hover:from-gradient4 hover:to-gradient3 rounded-lg text-gray-900 font-semibold transition duration-300 shadow-md hover-gradient"
-        >
-          Let's Connect
+  <!-- Header → Clean Minimalist -->
+  <header class="fixed top-0 left-0 w-full bg-white shadow-sm soft-card z-50">
+    <nav class="container mx-auto flex justify-between items-center py-4 px-6">
+      <div class="flex items-center gap-3">
+        <a href="index.html">
+          <img src="LOGOW.png" alt="Logo" class="h-10" />
         </a>
+        <h1 class="text-lg font-semibold text-dark tracking-tight">Wahyudiyanto</h1>
       </div>
 
-        <!-- Social Links -->
-        <div class="mt-4 flex gap-4 justify-center md:justify-start">
-          <p class="text-gray-600 text-shadow">Join Me</p>
-          <a
-            href="https://www.linkedin.com/in/wahyu-laja/"
-            class="text-gray-500 hover:text-gray-900 transition text-shadow"
-          >
-            <i class="fab fa-linkedin"></i> LinkedIn
-          </a>
-          <a
-            href="https://github.com/wahyu-02"
-            class="text-gray-500 hover:text-gray-900 transition text-shadow"
-          >
-            <i class="fab fa-github"></i> GitHub
-          </a>
-          <a
-            href="https://www.instagram.com/wayyulaja"
-            class="text-gray-500 hover:text-gray-900 transition text-shadow"
-          >
-            <i class="fab fa-twitter"></i> Instagram
-          </a>
-        </div>
-      </div>
-    </section>
+      <ul class="hidden md:flex gap-6 text-dark text-sm font-medium">
+        <li><a href="index.html" class="hover:text-dimgray">Home</a></li>
+        <li><a href="portfolio.html" class="hover:text-dimgray">Portfolio</a></li>
+        <li><a href="resume.html" class="hover:text-dimgray">Resume</a></li>
+        <li><a href="activity.html" class="hover:text-dimgray">Activity</a></li>
+        <li><a href="contact.html" class="hover:text-dimgray">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <!-- Footer -->
-    <footer
-      class="w-full py-4 bg-gradient-to-r from-gradient1 via-gradient2 to-gradient3 bg-opacity-80 backdrop-blur-lg text-center text-gray-700 mt-10"
-    >
-      <p>&copy; 2025 Wahyudiyanto | All Rights Reserved</p>
-    </footer>
-  </body>
+  <!-- Chatbot Button → Minimal Circle Button -->
+  <button id="chatbot-button" class="fixed bottom-6 right-6 bg-dark text-white rounded-full w-14 h-14 flex items-center justify-center soft-card hover:bg-dimgray transition">
+    <i class="fas fa-comment"></i>
+  </button>
+
+  <!-- Chatbot Popup → Clean Card -->
+  <div id="chatbot-popup" class="fixed bottom-24 right-6 w-80 bg-white rounded-lg soft-card hidden" style="height: 65vh;">
+    <div class="p-4 border-b border-softgray flex justify-between items-center">
+      <h3 class="font-semibold text-dark text-sm">Wade AI</h3>
+      <button id="close-chatbot" class="text-dark hover:text-dimgray"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div id="chat-messages" class="flex-1 p-4 overflow-y-auto text-sm text-dimgray">
+      <p class="text-center">Hello! Ask me anything about Wahyu.</p>
+      <div id="loading" class="text-center hidden mt-2"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+    </div>
+
+    <div class="p-4 border-t border-softgray">
+      <div class="flex gap-2">
+        <input id="chat-input" class="flex-1 p-2 border border-softgray rounded text-sm" placeholder="Type a message..." />
+        <button id="send-message" class="px-4 bg-dark text-white text-sm rounded hover:bg-dimgray">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section → Ultra Minimal -->
+  <section class="pt-32 container mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+
+    <div class="flex justify-center">
+      <img src="src/assets/profile_picture.jpg" class="w-64 rounded-lg soft-card" />
+    </div>
+
+    <div>
+      <h2 class="text-sm text-dimgray">Hello, It's Me</h2>
+      <h1 class="text-4xl font-bold text-dark mt-2 tracking-tight">Wahyu</h1>
+      <h3 class="text-lg text-dimgray mt-1">Data Analyst</h3>
+
+      <p class="mt-4 text-dark text-sm leading-relaxed">
+        I transform complex data into actionable insights that drive decision‑making.
+      </p>
+      <p class="mt-3 text-dark text-sm leading-relaxed">
+        This website is a fully self‑taught project—a reflection of my commitment to learning.
+      </p>
+
+      <a href="contact.html" class="mt-5 inline-block px-5 py-2 bg-dark text-white text-sm rounded hover:bg-dimgray soft-card transition">
+        Let's Connect
+      </a>
+
+      <div class="flex gap-4 mt-6 text-dimgray text-sm">
+        <a href="https://www.linkedin.com/in/wahyu-laja/" class="hover:text-dark">LinkedIn</a>
+        <a href="https://github.com/wahyu-02" class="hover:text-dark">GitHub</a>
+        <a href="https://www.instagram.com/wayyulaja" class="hover:text-dark">Instagram</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Footer → Minimal -->
+  <footer class="mt-20 text-center text-dimgray text-xs py-6 border-t border-softgray">
+    © 2025 Wahyudiyanto — All Rights Reserved
+  </footer>
+
+</body>
 </html>
-

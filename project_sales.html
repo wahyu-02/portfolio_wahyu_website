@@ -3,78 +3,100 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vehicle Sales Analysis</title>
-    <link rel="icon" type="image/png" href="LOGOW.png">
+    <title>Vehicle Sales Analysis - Wahyudiyanto</title>
+    <link rel="icon" type="image/png" href="LOGOW.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              gradient1: "#f8e8dc",
-              gradient2: "#bdd4e7",
-              gradient3: "#fbc2eb",
-              gradient4: "#a6c0fe",
+              bgDark: "#0d1117",
+              bgCard: "#161b22",
+              textMain: "#ffffff",
+              textMuted: "#8b949e",
+              accent: "#2dd4bf",
+              accentHover: "#14b8a6",
+              borderDark: "#30363d",
             },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            }
           },
         },
       };
     </script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    
     <style>
-      /* Background Gradient */
-      .gradient-bg {
-        background: linear-gradient(
-          135deg,
-          rgba(248, 232, 220, 1) 0%,
-          rgba(189, 212, 231, 1) 40%,
-          rgba(251, 194, 235, 1) 70%,
-          rgba(166, 192, 254, 1) 100%
-        );
-        position: absolute;
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      
+      /* Subtle Grid Background Effect */
+      .grid-bg {
+        background-size: 40px 40px;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        position: fixed;
         width: 100%;
         height: 100%;
         z-index: -1;
+        top: 0;
+        left: 0;
       }
 
-      /* Noise Overlay */
-      .noise-overlay {
-        background: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
-        opacity: 0.15;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
+      /* Chatbot Popup Animation */
+      #chatbot-popup {
+        transition: transform 0.3s ease-in-out, opacity 0.3s;
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      #chatbot-popup.visible {
+        transform: translateY(0);
+        opacity: 1;
       }
 
-      /* Card Hover Effect */
-      .card-hover:hover {
-        transform: scale(1.03);
-        transition: all 0.3s ease-in-out;
+      /* Custom Scrollbar for Pre blocks */
+      pre::-webkit-scrollbar {
+        height: 8px;
+      }
+      pre::-webkit-scrollbar-track {
+        background: #0d1117; 
+      }
+      pre::-webkit-scrollbar-thumb {
+        background: #30363d; 
+        border-radius: 4px;
+      }
+      pre::-webkit-scrollbar-thumb:hover {
+        background: #2dd4bf; 
       }
     </style>
   </head>
-  <body class="relative text-gray-900 min-h-screen">
-    <!-- Background -->
-    <div class="absolute inset-0 gradient-bg"></div>
-    <div class="absolute inset-0 noise-overlay"></div>
-
+  <body class="bg-bgDark text-textMain min-h-screen relative overflow-x-hidden">
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
 
+    <!-- Background Grid -->
+    <div class="grid-bg"></div>
+
     <!-- Header -->
     <header
       x-data="{ open: false, lastScroll: 0, visible: true }"
       x-init="
-    window.addEventListener('scroll', () => {
-      let currentScroll = window.pageYOffset;
-      visible = (currentScroll < lastScroll) || (currentScroll < 50);
-      lastScroll = currentScroll;
-    });
-  "
+        window.addEventListener('scroll', () => {
+          let currentScroll = window.pageYOffset;
+          visible = (currentScroll < lastScroll) || (currentScroll < 50);
+          lastScroll = currentScroll;
+        });
+      "
       x-bind:class="visible ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'"
-      class="w-full py-4 bg-gradient-to-r from-gradient1 via-gradient2 to-gradient3 bg-opacity-80 backdrop-blur-lg shadow-lg fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out"
+      class="w-full py-4 bg-bgDark/80 backdrop-blur-md border-b border-borderDark fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out"
     >
       <nav class="container mx-auto flex justify-between items-center px-6">
         <!-- Logo & Title Wrapper -->
@@ -83,217 +105,89 @@
             <img
               src="LOGOW.png"
               alt="Logo"
-              class="h-10 md:h-12 lg:h-14 w-auto"
+              class="h-10 w-auto filter brightness-200 contrast-200 grayscale" 
             />
           </a>
-          <h1 class="text-xl font-bold text-shadow text-left">
-            Portfolio
+          <h1 class="text-xl font-bold tracking-tight text-white">
+            Project Details
           </h1>
         </div>
 
         <!-- Desktop Menu -->
-        <ul class="hidden md:flex gap-6 text-gray-900 font-semibold">
+        <ul class="hidden md:flex gap-8 text-sm font-medium text-textMuted">
           <li>
-            <a
-              href="index.html"
-              class="hover:text-gray-600 transition"
-              >Home</a
-            >
+            <a href="index.html" class="hover:text-accent transition-colors duration-300">Home</a>
           </li>
           <li>
-            <a
-              href="portfolio.html"
-              class="hover:text-gray-600 transition"
-              >Portfolio</a
-            >
+            <a href="resume.html" class="hover:text-accent transition-colors duration-300">Resume</a>
           </li>
           <li>
-            <a
-              href="resume.html"
-              class="hover:text-gray-600 transition"
-              >Resume</a
-            >
+            <a href="activity.html" class="hover:text-accent transition-colors duration-300">Activity</a>
           </li>
           <li>
-            <a
-              href="activity.html"
-              class="hover:text-gray-600 transition"
-              >Activity</a
-            >
-          </li>
-          <li>
-            <a
-              href="contact.html"
-              class="hover:text-gray-600 transition"
-              >Contact</a
-            >
+            <a href="contact.html" class="hover:text-accent transition-colors duration-300">Contact</a>
           </li>
         </ul>
 
         <!-- Mobile Menu Button -->
         <button
           @click="open = !open"
-          class="md:hidden text-gray-900 focus:outline-none z-50 relative"
+          class="md:hidden text-white focus:outline-none z-50 relative"
         >
-          <svg
-            x-show="!open"
-            class="w-8 h-8"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            ></path>
-          </svg>
+          <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+          <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </nav>
 
-      <!-- Mobile Menu (Dynamic Island Effect) -->
+      <!-- Mobile Menu -->
       <div
         x-show="open"
         @click.away="open = false"
-        class="fixed top-3 left-1/2 transform -translate-x-1/2 w-[90%] max-w-lg bg-gradient-to-r from-gradient1 via-gradient2 to-gradient3 shadow-lg rounded-full z-50 transition-all duration-300 ease-in-out"
-        x-transition:enter="transform transition ease-out duration-300"
-        x-transition:enter-start="scale-50 opacity-0"
-        x-transition:enter-end="scale-100 opacity-100"
-        x-transition:leave="transform transition ease-in duration-300"
-        x-transition:leave-start="scale-100 opacity-100"
-        x-transition:leave-end="scale-50 opacity-0"
+        class="absolute top-full left-0 w-full bg-bgCard border-b border-borderDark shadow-2xl z-40 md:hidden"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 -translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-2"
       >
-        <nav class="px-3 py-2">
-          <ul
-            class="flex flex-row justify-center gap-6 text-gray-900 text-lg font-semibold"
-          >
-            <li>
-              <a
-                href="index.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Home</a
-              >
-            </li>
-            <li>
-              <a
-                href="portfolio.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Portfolio</a
-              >
-            </li>
-            <li>
-              <a
-                href="resume.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Resume</a
-              >
-            </li>
-            <li>
-              <a
-                href="/activity.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Activity</a
-              >
-            </li>
-            <li>
-              <a
-                href="contact.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Contact</a
-              >
-            </li>
+        <nav class="px-6 py-4">
+          <ul class="flex flex-col gap-4 text-textMain font-medium">
+            <li><a href="index.html" class="block hover:text-accent transition">Home</a></li>
+            <li><a href="resume.html" class="block hover:text-accent transition">Resume</a></li>
+            <li><a href="activity.html" class="block hover:text-accent transition">Activity</a></li>
+            <li><a href="contact.html" class="block hover:text-accent transition">Contact</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-
     <!-- Chatbot Button -->
     <div class="fixed bottom-6 right-6 z-50">
-      <button
-        id="chatbot-button"
-        class="bg-gradient-to-r from-gradient3 to-gradient4 hover:from-gradient4 hover:to-gradient3 text-gray-900 font-semibold py-3 px-6 rounded-full shadow-lg hover-gradient flex items-center gap-2"
-      >
+      <button id="chatbot-button" class="bg-accent hover:bg-accentHover text-bgDark font-bold py-3 px-6 rounded-full shadow-lg flex items-center gap-2 transition-all hover:-translate-y-1">
         <i class="fas fa-comment-dots"></i> Ask Wahyu's AI!
       </button>
     </div>
 
     <!-- Chatbot Popup -->
-    <div
-      id="chatbot-popup"
-      class="fixed bottom-24 right-6 w-96 max-w-full bg-white rounded-lg shadow-lg flex flex-col hidden"
-      style="height: 70vh; z-index: 100"
-    >
-      <!-- Chat Header -->
-      <div
-        class="bg-gradient-to-r from-gradient3 to-gradient4 text-white p-4 rounded-t-lg flex justify-between items-center"
-      >
-        <h3 class="font-semibold">Wade</h3>
-        <button id="close-chatbot" class="text-white hover:text-gray-200">
-          <i class="fas fa-times"></i>
-        </button>
+    <div id="chatbot-popup" class="fixed bottom-24 right-6 w-96 max-w-full bg-bgCard border border-borderDark rounded-xl shadow-2xl flex flex-col hidden" style="height: 60vh; z-index: 100">
+      <div class="bg-bgCard border-b border-borderDark text-white p-4 rounded-t-xl flex justify-between items-center">
+        <div class="flex items-center gap-2"><div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div><h3 class="font-semibold text-accent">Wade AI</h3></div>
+        <button id="close-chatbot" class="text-textMuted hover:text-white transition"><i class="fas fa-times"></i></button>
       </div>
-
-      <!-- Chat Messages -->
-      <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50">
-        <!-- Pesan default -->
-        <div class="text-center text-gray-500">
-          Hi! I'm Wade, Wahyu's personal AI. You can ask me anything about Him,
-          or ask me a general question and I'll try to answer it!
-        </div>
-        <!-- Loading indicator -->
-        <div id="loading" class="text-center hidden">
-          <i class="fas fa-spinner fa-spin"></i> Connecting to server...
-        </div>
+      <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-bgDark text-sm">
+        <div class="text-center text-textMuted my-4"><i class="fas fa-robot text-2xl mb-2 text-accent"></i><p>Hi! I'm Wade. Ask me about this Sales Analysis project.</p></div>
+        <div id="loading" class="text-center hidden text-accent"><i class="fas fa-circle-notch fa-spin"></i> Connecting...</div>
       </div>
-
-      <!-- Chat Input -->
-      <div class="p-4 bg-gray-100 rounded-b-lg">
+      <div class="p-4 bg-bgCard border-t border-borderDark rounded-b-xl">
         <div class="flex gap-2">
-          <input
-            id="chat-input"
-            type="text"
-            class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gradient3"
-            placeholder="Type a message..."
-          />
-          <button
-            id="send-message"
-            class="bg-gradient-to-r from-gradient3 to-gradient4 hover:from-gradient4 hover:to-gradient3 text-white font-semibold px-4 rounded-lg"
-          >
-            Send
-          </button>
-        </div>
-        <!-- Rekomendasi Pertanyaan -->
-        <div id="suggestions" class="mt-2 flex flex-wrap gap-2">
-          <button
-            class="suggestion-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300"
-          >
-            Who is Wahyu?
-          </button>
-          <button
-            class="suggestion-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300"
-          >
-            What are Wahyu's skills?
-          </button>
-          <button
-            class="suggestion-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300"
-          >
-            What projects has Wahyu worked on?
-          </button>
+          <input id="chat-input" type="text" class="flex-1 p-2 bg-bgDark border border-borderDark rounded-lg text-white focus:outline-none focus:border-accent placeholder-textMuted text-sm" placeholder="Type a message..." />
+          <button id="send-message" class="bg-accent hover:bg-accentHover text-bgDark font-bold px-4 rounded-lg transition-colors"><i class="fas fa-paper-plane"></i></button>
         </div>
       </div>
     </div>
+    
+    <!-- Chatbot Logic -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const chatbotButton = document.getElementById("chatbot-button");
@@ -302,140 +196,67 @@
         const chatInput = document.getElementById("chat-input");
         const sendMessageButton = document.getElementById("send-message");
         const chatMessages = document.getElementById("chat-messages");
-        const suggestionButtons = document.querySelectorAll(".suggestion-btn");
         const loadingElement = document.getElementById("loading");
 
-        // Toggle chatbot popup
-        chatbotButton.addEventListener("click", () => {
-          chatbotPopup.classList.toggle("visible");
-          chatbotPopup.classList.toggle("hidden");
-        });
-
-        // Close chatbot popup
-        closeChatbot.addEventListener("click", () => {
-          chatbotPopup.classList.remove("visible");
-          chatbotPopup.classList.add("hidden");
-        });
-
-        // Send message
+        chatbotButton.addEventListener("click", () => { chatbotPopup.classList.toggle("visible"); chatbotPopup.classList.toggle("hidden"); });
+        closeChatbot.addEventListener("click", () => { chatbotPopup.classList.remove("visible"); chatbotPopup.classList.add("hidden"); });
         sendMessageButton.addEventListener("click", sendMessage);
-        chatInput.addEventListener("keypress", function (event) {
-          if (event.key === "Enter") {
-            sendMessage();
-          }
-        });
+        chatInput.addEventListener("keypress", function (event) { if (event.key === "Enter") sendMessage(); });
 
-        // Suggestion buttons
-        suggestionButtons.forEach((button) => {
-          button.addEventListener("click", function () {
-            chatInput.value = this.innerText;
-            sendMessage();
-          });
-        });
-
-        // Function to send message
         const API_URL = "https://portfolio-wahyu-website.onrender.com/chatbot";
         async function sendMessage() {
           const message = chatInput.value.trim();
           if (!message) return;
-
-          // Add user message to chat
-          chatMessages.innerHTML += `
-        <div class="text-right mb-2">
-          <div class="inline-block bg-gradient-to-r from-gradient3 to-gradient4 text-white p-2 rounded-lg">
-            ${message}
-          </div>
-        </div>
-      `;
+          chatMessages.innerHTML += `<div class="text-right mb-3"><div class="inline-block bg-accent text-bgDark font-medium p-3 rounded-lg rounded-br-none max-w-[80%] text-left">${message}</div></div>`;
           chatInput.value = "";
-
-          // Show loading indicator
           loadingElement.classList.remove("hidden");
-
-          // Send message to backend
           try {
-            const response = await fetch(API_URL, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ message: message }),
-            });
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
+            const response = await fetch(API_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: message }), });
+            if (!response.ok) throw new Error(`Status: ${response.status}`);
             const data = await response.json();
-
-            // Hide loading indicator
             loadingElement.classList.add("hidden");
-
-            // Add bot response to chat
-            chatMessages.innerHTML += `
-          <div class="text-left mb-2">
-            <div class="inline-block bg-gray-200 text-gray-900 p-2 rounded-lg">
-              ${data.response}
-            </div>
-          </div>
-        `;
-            // Scroll to bottom
+            chatMessages.innerHTML += `<div class="text-left mb-3"><div class="inline-block bg-borderDark text-white p-3 rounded-lg rounded-bl-none max-w-[80%]">${data.response}</div></div>`;
             chatMessages.scrollTop = chatMessages.scrollHeight;
           } catch (error) {
-            console.error("Error:", error);
-            // Hide loading indicator
             loadingElement.classList.add("hidden");
-
-            chatMessages.innerHTML += `
-          <div class="text-left mb-2">
-            <div class="inline-block bg-red-100 text-red-900 p-2 rounded-lg">
-              Error: Could not connect to the server. Please try again later.
-            </div>
-          </div>
-        `;
+            chatMessages.innerHTML += `<div class="text-left mb-3"><div class="inline-block bg-red-900/50 text-red-200 border border-red-900 p-3 rounded-lg">Error: Could not connect.</div></div>`;
           }
         }
       });
     </script>
 
-
     <!-- Main Content -->
-    <main class="container mx-auto py-32 px-4 md:px-12">
-      <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-900">
-        📊 Vehicle Sales Analysis
-      </h2>
-
-      <!-- Section: Global Trends -->
-      <section class="mb-12">
-        <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-          🌎 Global EV Growth Trends
-        </h3>
-        <p
-          class="text-gray-700 max-w-3xl mx-auto text-lg text-center md:text-left"
-        >
-          The chart below illustrates the <strong>exponential growth</strong> of
-          <strong>Electric Vehicle (EV) stock, sales, and market share</strong>
-          over the years.
+    <main class="container mx-auto py-32 px-6 md:px-12">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          Vehicle Sales <span class="text-accent">Analysis</span>
+        </h2>
+        <p class="text-textMuted max-w-2xl mx-auto text-lg">
+            An in-depth analysis of global Electric Vehicle (EV) trends, sales data, and powertrain distribution from 2010 to 2024.
         </p>
+      </div>
 
-        <!-- Responsive Image -->
-        <div
-          class="w-full max-w-4xl mx-auto mt-6 rounded-lg overflow-hidden shadow-lg"
-        >
-          <img
-            src="src/assets/portfolio/global_trends.png"
-            alt="Global EV Growth Trends"
-            class="w-full h-auto"
-          />
-        </div>
-
-        <!-- Expandable Code -->
-        <details class="bg-white p-4 rounded-lg mt-6 shadow-md">
-          <summary class="cursor-pointer font-semibold text-gray-900">
-            View Code
-          </summary>
-          <pre
-            class="bg-gray-900 text-gray-300 p-4 rounded-lg overflow-auto mt-4 text-sm"
-          >
-<code>
-import pandas as pd
+      <!-- 1. Section: Global Trends -->
+      <section class="mb-20">
+        <div class="flex flex-col md:flex-row items-start gap-8">
+            <div class="w-full md:w-1/3">
+                <h3 class="text-2xl font-bold text-white mb-3 border-l-4 border-accent pl-4">Global EV Growth</h3>
+                <p class="text-textMuted leading-relaxed">
+                    The chart illustrates the <strong class="text-white">exponential growth</strong> of Electric Vehicle stock, sales, and market share over the years, highlighting the accelerating shift towards sustainable transport.
+                </p>
+            </div>
+            <div class="w-full md:w-2/3">
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-2 shadow-lg">
+                    <img src="src/assets/portfolio/global_trends.png" alt="Global EV Growth Trends" class="w-full h-auto rounded-xl hover:scale-[1.02] transition-transform duration-300" />
+                </div>
+                
+                <!-- Expandable Code -->
+                <details class="bg-bgCard border border-borderDark p-4 rounded-xl mt-4 shadow-lg group">
+                  <summary class="cursor-pointer font-semibold text-accent hover:text-white transition-colors flex items-center gap-2">
+                    <i class="fas fa-code"></i> View Python Code
+                  </summary>
+                  <pre class="bg-bgDark border border-borderDark text-gray-300 p-4 rounded-lg overflow-auto mt-4 text-sm font-mono">
+<code>import pandas as pd
 import matplotlib.pyplot as plt
 
 key_parameters = ['EV stock', 'EV sales', 'EV sales share', 'EV stock share']
@@ -450,208 +271,150 @@ plt.xlabel("Year", fontsize=12)
 plt.ylabel("Value", fontsize=12)
 plt.legend(title="Parameter")
 plt.grid()
-plt.show()
-</code>
-      </pre>
-        </details>
+plt.show()</code></pre>
+                </details>
+            </div>
+        </div>
       </section>
 
-      <!-- Section: Regional Trends -->
-      <section class="mb-12">
-        <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-          📍 Regional EV Sales & Stock
-        </h3>
-        <p
-          class="text-gray-700 max-w-3xl mx-auto text-lg text-center md:text-left"
-        >
-          The chart below compares <strong>EV stock and sales</strong> across
-          different regions.
-        </p>
+      <!-- 2. Section: Regional Trends -->
+      <section class="mb-20">
+        <div class="flex flex-col md:flex-row-reverse items-start gap-8">
+            <div class="w-full md:w-1/3">
+                <h3 class="text-2xl font-bold text-white mb-3 border-l-4 border-accent pl-4">Regional Comparison</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Comparing <strong class="text-white">EV stock vs sales</strong> across major regions. This visualization identifies key markets driving the global adoption of electric vehicles.
+                </p>
+            </div>
+            <div class="w-full md:w-2/3">
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-2 shadow-lg">
+                    <img src="src/assets/portfolio/regional_comparison.png" alt="Regional EV Sales & Stock" class="w-full h-auto rounded-xl hover:scale-[1.02] transition-transform duration-300" />
+                </div>
 
-        <!-- Responsive Image -->
-        <div
-          class="w-full max-w-4xl mx-auto mt-6 rounded-lg overflow-hidden shadow-lg"
-        >
-          <img
-            src="src/assets/portfolio/regional_comparison.png"
-            alt="Regional EV Sales & Stock"
-            class="w-full h-auto"
-          />
-        </div>
-
-        <!-- Expandable Code -->
-        <details class="bg-white p-4 rounded-lg mt-6 shadow-md">
-          <summary class="cursor-pointer font-semibold text-gray-900">
-            View Code
-          </summary>
-          <pre
-            class="bg-gray-900 text-gray-300 p-4 rounded-lg overflow-auto mt-4 text-sm"
-          >
-<code>
-regional_trends = filtered_historical[filtered_historical['parameter'].isin(['EV stock', 'EV sales'])]
+                <!-- Expandable Code -->
+                <details class="bg-bgCard border border-borderDark p-4 rounded-xl mt-4 shadow-lg group">
+                  <summary class="cursor-pointer font-semibold text-accent hover:text-white transition-colors flex items-center gap-2">
+                    <i class="fas fa-code"></i> View Python Code
+                  </summary>
+                  <pre class="bg-bgDark border border-borderDark text-gray-300 p-4 rounded-lg overflow-auto mt-4 text-sm font-mono">
+<code>regional_trends = filtered_historical[filtered_historical['parameter'].isin(['EV stock', 'EV sales'])]
 latest_year = regional_trends['year'].max()
 regional_summary = regional_trends[regional_trends['year'] == latest_year].groupby(['region', 'parameter'])['value'].sum().reset_index()
+
 regional_summary_pivot = regional_summary.pivot(index='region', columns='parameter', values='value')
 regional_summary_pivot.sort_values(by='EV stock', ascending=False).plot(kind='bar', figsize=(10, 6))
+
 plt.title(f"Regional Comparison of EV Stock and Sales in {latest_year}")
 plt.xlabel("Region")
 plt.ylabel("Value")
 plt.legend(title="Parameter")
 plt.grid(axis='y')
 plt.xticks(rotation=45, ha='right')
-plt.show()
-</code>
-      </pre>
-        </details>
+plt.show()</code></pre>
+                </details>
+            </div>
+        </div>
       </section>
 
-      <!-- Section: Powertrain Composition -->
-      <section class="mb-12">
-        <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-          🚗 Powertrain Composition by Region
-        </h3>
-        <p
-          class="text-gray-700 max-w-3xl mx-auto text-lg text-center md:text-left"
-        >
-          This chart visualizes the
-          <strong>distribution of different powertrain types</strong> across
-          regions.
-        </p>
+      <!-- 3. Section: Powertrain Composition -->
+      <section class="mb-20">
+         <div class="flex flex-col md:flex-row items-start gap-8">
+            <div class="w-full md:w-1/3">
+                <h3 class="text-2xl font-bold text-white mb-3 border-l-4 border-accent pl-4">Powertrain Analysis</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Breakdown of powertrain types (BEV vs PHEV) by region. This helps understand the technological preference in different markets.
+                </p>
+            </div>
+            <div class="w-full md:w-2/3">
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-2 shadow-lg">
+                    <img src="src/assets/portfolio/powertrain_composition.png" alt="Powertrain Composition" class="w-full h-auto rounded-xl hover:scale-[1.02] transition-transform duration-300" />
+                </div>
 
-        <!-- Responsive Image -->
-        <div
-          class="w-full max-w-4xl mx-auto mt-6 rounded-lg overflow-hidden shadow-lg"
-        >
-          <img
-            src="src/assets/portfolio/powertrain_composition.png"
-            alt="Powertrain Composition"
-            class="w-full h-auto"
-          />
-        </div>
-
-        <!-- Expandable Code -->
-        <details class="bg-white p-4 rounded-lg mt-6 shadow-md">
-          <summary class="cursor-pointer font-semibold text-gray-900">
-            View Code
-          </summary>
-          <pre
-            class="bg-gray-900 text-gray-300 p-4 rounded-lg overflow-auto mt-4 text-sm"
-          >
-<code>
-powertrain_data = historical_data[(historical_data['year'] == latest_year) & (historical_data['parameter'] == 'EV stock')]
+                 <!-- Expandable Code -->
+                <details class="bg-bgCard border border-borderDark p-4 rounded-xl mt-4 shadow-lg group">
+                  <summary class="cursor-pointer font-semibold text-accent hover:text-white transition-colors flex items-center gap-2">
+                    <i class="fas fa-code"></i> View Python Code
+                  </summary>
+                  <pre class="bg-bgDark border border-borderDark text-gray-300 p-4 rounded-lg overflow-auto mt-4 text-sm font-mono">
+<code>powertrain_data = historical_data[(historical_data['year'] == latest_year) & (historical_data['parameter'] == 'EV stock')]
 powertrain_summary = powertrain_data.groupby(['region', 'powertrain'])['value'].sum().reset_index()
+
 powertrain_summary_pivot = powertrain_summary.pivot(index='region', columns='powertrain', values='value').fillna(0)
 powertrain_summary_pivot['Total'] = powertrain_summary_pivot.sum(axis=1)
 powertrain_summary_pivot.sort_values(by='Total', ascending=False).drop(columns=['Total']).plot(kind='bar', stacked=True, figsize=(10, 6))
+
 plt.title(f"Powertrain Composition by Region in {latest_year}")
 plt.xlabel("Region")
 plt.ylabel("EV Stock")
 plt.legend(title="Powertrain")
 plt.grid(axis='y')
 plt.xticks(rotation=45, ha='right')
-plt.show()
-</code>
-      </pre>
-        </details>
+plt.show()</code></pre>
+                </details>
+            </div>
+        </div>
       </section>
 
-      <!-- Section: EV Stock Share Trends -->
-      <section class="mb-12">
-        <h3
-          class="text-2xl font-semibold mb-4 text-gray-900 text-center md:text-left"
-        >
-          📈 EV Stock Share Trends Over Time
-        </h3>
-        <p
-          class="text-gray-700 max-w-3xl mx-auto text-lg text-center md:text-left"
-        >
-          This line chart presents the <strong>historical trends</strong> in EV
-          stock share for the <strong>top 5 leading regions</strong> in EV
-          adoption.
-        </p>
+      <!-- 4. Section: EV Stock Share Trends -->
+      <section class="mb-20">
+         <div class="flex flex-col md:flex-row-reverse items-start gap-8">
+            <div class="w-full md:w-1/3">
+                <h3 class="text-2xl font-bold text-white mb-3 border-l-4 border-accent pl-4">Stock Share Trends</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Historical trends for the <strong class="text-white">top 5 leading regions</strong>. This line chart visualizes the adoption rate over the last decade.
+                </p>
+            </div>
+            <div class="w-full md:w-2/3">
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-2 shadow-lg">
+                    <img src="src/assets/portfolio/stock_share_trends.png" alt="EV Stock Share Trends" class="w-full h-auto rounded-xl hover:scale-[1.02] transition-transform duration-300" />
+                </div>
 
-        <!-- Responsive Image -->
-        <div
-          class="w-full max-w-4xl mx-auto mt-6 rounded-lg overflow-hidden shadow-lg"
-        >
-          <img
-            src="src/assets/portfolio/stock_share_trends.png"
-            alt="EV Stock Share Trends"
-            class="w-full h-auto"
-          />
-        </div>
-
-        <!-- Expandable Code -->
-        <details class="bg-white p-4 rounded-lg mt-6 shadow-md">
-          <summary class="cursor-pointer font-semibold text-gray-900">
-            View Code
-          </summary>
-          <pre
-            class="bg-gray-900 text-gray-300 p-4 rounded-lg overflow-auto mt-4 text-sm"
-          >
-<code>
-stock_share_data = historical_data[historical_data['parameter'] == 'EV stock share']
-
+                 <!-- Expandable Code -->
+                <details class="bg-bgCard border border-borderDark p-4 rounded-xl mt-4 shadow-lg group">
+                  <summary class="cursor-pointer font-semibold text-accent hover:text-white transition-colors flex items-center gap-2">
+                    <i class="fas fa-code"></i> View Python Code
+                  </summary>
+                  <pre class="bg-bgDark border border-borderDark text-gray-300 p-4 rounded-lg overflow-auto mt-4 text-sm font-mono">
+<code>stock_share_data = historical_data[historical_data['parameter'] == 'EV stock share']
 stock_share_trends = stock_share_data.groupby(['region', 'year'])['value'].sum().reset_index()
 
 top_regions = stock_share_trends.groupby('region')['value'].mean().sort_values(ascending=False).head(5).index
 top_regions_data = stock_share_trends[stock_share_trends['region'].isin(top_regions)]
 
 plt.figure(figsize=(10, 6))
-sns.lineplot(
-    data=top_regions_data,
-    x='year',
-    y='value',
-    hue='region',
-    marker='o'
-)
+sns.lineplot(data=top_regions_data, x='year', y='value', hue='region', marker='o')
 plt.title("EV Stock Share Trends Over Time", fontsize=14)
 plt.xlabel("Year", fontsize=12)
 plt.ylabel("EV Stock Share (%)", fontsize=12)
 plt.legend(title="Region")
 plt.grid()
-plt.show()
-</code>
-      </pre>
-        </details>
+plt.show()</code></pre>
+                </details>
+            </div>
+        </div>
       </section>
 
-      <!-- Section: EV Stock by Transport Mode -->
-      <section class="mb-12">
-        <h3
-          class="text-2xl font-semibold mb-4 text-gray-900 text-center md:text-left"
-        >
-          🚘 EV Stock Distribution by Transport Mode
-        </h3>
-        <p
-          class="text-gray-700 max-w-3xl mx-auto text-lg text-center md:text-left"
-        >
-          This chart highlights the
-          <strong>distribution of EV stock</strong> across different transport
-          modes (Cars, Buses, Trucks, Vans) in major regions.
-        </p>
+      <!-- 5. Section: Transport Mode -->
+      <section class="mb-20">
+         <div class="flex flex-col md:flex-row items-start gap-8">
+            <div class="w-full md:w-1/3">
+                <h3 class="text-2xl font-bold text-white mb-3 border-l-4 border-accent pl-4">Transport Modes</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Distribution of EV stock by mode (Cars, Buses, Trucks, Vans). Cars dominate the market, but other segments are growing.
+                </p>
+            </div>
+            <div class="w-full md:w-2/3">
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-2 shadow-lg">
+                    <img src="src/assets/portfolio/ev_transport_modes.png" alt="EV Transport Modes" class="w-full h-auto rounded-xl hover:scale-[1.02] transition-transform duration-300" />
+                </div>
 
-        <!-- Responsive Image -->
-        <div
-          class="w-full max-w-4xl mx-auto mt-6 rounded-lg overflow-hidden shadow-lg"
-        >
-          <img
-            src="src/assets/portfolio/ev_transport_modes.png"
-            alt="EV Transport Modes"
-            class="w-full h-auto"
-          />
-        </div>
-
-        <!-- Expandable Code -->
-        <details class="bg-white p-4 rounded-lg mt-6 shadow-md">
-          <summary class="cursor-pointer font-semibold text-gray-900">
-            View Code
-          </summary>
-          <pre
-            class="bg-gray-900 text-gray-300 p-4 rounded-lg overflow-auto mt-4 text-sm"
-          >
-<code>
-transport_mode_data = historical_data[historical_data['parameter'] == 'EV stock']
+                 <!-- Expandable Code -->
+                <details class="bg-bgCard border border-borderDark p-4 rounded-xl mt-4 shadow-lg group">
+                  <summary class="cursor-pointer font-semibold text-accent hover:text-white transition-colors flex items-center gap-2">
+                    <i class="fas fa-code"></i> View Python Code
+                  </summary>
+                  <pre class="bg-bgDark border border-borderDark text-gray-300 p-4 rounded-lg overflow-auto mt-4 text-sm font-mono">
+<code>transport_mode_data = historical_data[historical_data['parameter'] == 'EV stock']
 transport_mode_summary = transport_mode_data.groupby(['region', 'mode'])['value'].sum().reset_index()
 
 transport_mode_pivot = transport_mode_summary.pivot(index='region', columns='mode', values='value').fillna(0)
@@ -662,54 +425,37 @@ transport_mode_pivot.plot(kind='bar', stacked=True, figsize=(10, 6))
 plt.title("EV Stock by Transport Mode", fontsize=14)
 plt.xlabel("Region", fontsize=12)
 plt.ylabel("EV Stock", fontsize=12)
-plt.legend(title="Mode of Transport", bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.legend(title="Mode", bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.grid(axis='y')
 plt.xticks(rotation=45, ha='right')
-plt.show()
-</code>
-      </pre>
-        </details>
+plt.show()</code></pre>
+                </details>
+            </div>
+        </div>
       </section>
 
-      <!-- Section: Year-over-Year Growth -->
-      <section class="mb-12">
-        <h3
-          class="text-2xl font-semibold mb-4 text-gray-900 text-center md:text-left"
-        >
-          📊 Year-over-Year Growth in EV Stock Share
-        </h3>
-        <p
-          class="text-gray-700 max-w-3xl mx-auto text-lg text-center md:text-left"
-        >
-          This bar chart visualizes the <strong>annual growth rate</strong> of
-          EV stock share across different regions, highlighting areas with the
-          fastest expansion.
-        </p>
+      <!-- 6. Section: YoY Growth -->
+      <section class="mb-20">
+         <div class="flex flex-col md:flex-row-reverse items-start gap-8">
+            <div class="w-full md:w-1/3">
+                <h3 class="text-2xl font-bold text-white mb-3 border-l-4 border-accent pl-4">Year-over-Year Growth</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Highlighting regions with the fastest expansion rates in EV stock share. This metric is crucial for identifying emerging markets.
+                </p>
+            </div>
+            <div class="w-full md:w-2/3">
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-2 shadow-lg">
+                    <img src="src/assets/portfolio/ev_growth_rate.png" alt="EV Stock Growth Rate" class="w-full h-auto rounded-xl hover:scale-[1.02] transition-transform duration-300" />
+                </div>
 
-        <!-- Responsive Image -->
-        <div
-          class="w-full max-w-4xl mx-auto mt-6 rounded-lg overflow-hidden shadow-lg"
-        >
-          <img
-            src="src/assets/portfolio/ev_growth_rate.png"
-            alt="EV Stock Growth Rate"
-            class="w-full h-auto"
-          />
-        </div>
-
-        <!-- Expandable Code -->
-        <details class="bg-white p-4 rounded-lg mt-6 shadow-md">
-          <summary class="cursor-pointer font-semibold text-gray-900">
-            View Code
-          </summary>
-          <pre
-            class="bg-gray-900 text-gray-300 p-4 rounded-lg overflow-auto mt-4 text-sm"
-          >
-<code>
-policy_effectiveness = stock_share_data.groupby(['region', 'year'])['value'].sum().reset_index()
-
+                 <!-- Expandable Code -->
+                <details class="bg-bgCard border border-borderDark p-4 rounded-xl mt-4 shadow-lg group">
+                  <summary class="cursor-pointer font-semibold text-accent hover:text-white transition-colors flex items-center gap-2">
+                    <i class="fas fa-code"></i> View Python Code
+                  </summary>
+                  <pre class="bg-bgDark border border-borderDark text-gray-300 p-4 rounded-lg overflow-auto mt-4 text-sm font-mono">
+<code>policy_effectiveness = stock_share_data.groupby(['region', 'year'])['value'].sum().reset_index()
 policy_effectiveness['stock_share_growth'] = policy_effectiveness.groupby('region')['value'].pct_change() * 100
-
 average_growth_by_region = policy_effectiveness.groupby('region')['stock_share_growth'].mean().sort_values(ascending=False)
 
 average_growth_by_region.plot(kind='bar', figsize=(10, 6), color='skyblue')
@@ -718,19 +464,22 @@ plt.xlabel("Region", fontsize=12)
 plt.ylabel("Growth (%)", fontsize=12)
 plt.grid(axis='y')
 plt.xticks(rotation=45, ha='right')
-plt.show()
-</code>
-      </pre>
-        </details>
+plt.show()</code></pre>
+                </details>
+            </div>
+        </div>
       </section>
+
     </main>
 
     <!-- Footer -->
-    <footer
-      class="w-full py-4 bg-gradient-to-r from-gradient1 via-gradient2 to-gradient3 bg-opacity-80 backdrop-blur-lg text-center text-gray-700 mt-10"
-    >
-      <p>&copy; 2025 Wahyudiyanto | All Rights Reserved</p>
-      <a href="home.html" class="text-blue-500 hover:underline">Back to Home</a>
+    <footer class="w-full py-8 bg-bgCard border-t border-borderDark text-center mt-10">
+      <div class="flex justify-center items-center gap-2 mb-2">
+          <div class="h-px w-8 bg-borderDark"></div>
+          <img src="LOGOW.png" alt="Logo" class="h-6 w-auto filter brightness-200 grayscale opacity-50">
+          <div class="h-px w-8 bg-borderDark"></div>
+      </div>
+      <p class="text-textMuted text-sm">&copy; 2025 Wahyudiyanto | All Rights Reserved</p>
     </footer>
   </body>
 </html>

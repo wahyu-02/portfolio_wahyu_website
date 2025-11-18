@@ -11,59 +11,64 @@
         theme: {
           extend: {
             colors: {
-              primary: "#f3ece6",
-              secondary: "#cbdbe7",
-              accent: "#f8a1a6",
-              gradient1: "#f8e8dc",
-              gradient2: "#bdd4e7",
-              gradient3: "#fbc2eb",
-              gradient4: "#a6c0fe",
+              // Netlify-inspired Dark Theme Colors
+              bgDark: "#0d1117",       // Very dark blue/black background
+              bgCard: "#161b22",       // Slightly lighter for cards/sections
+              textMain: "#ffffff",     // White text
+              textMuted: "#8b949e",    // Gray text for descriptions
+              accent: "#2dd4bf",       // Teal/Cyan accent (Buttons/Highlights)
+              accentHover: "#14b8a6",  // Darker teal for hover
+              borderDark: "#30363d",   // Border color for inputs/cards
             },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            }
           },
         },
       };
     </script>
+    <!-- Google Fonts: Inter for clean modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-      /* Background Gradient */
-      .gradient-bg {
-        background: linear-gradient(
-          135deg,
-          rgba(248, 232, 220, 1) 0%,
-          rgba(189, 212, 231, 1) 40%,
-          rgba(251, 194, 235, 1) 70%,
-          rgba(166, 192, 254, 1) 100%
-        );
-        position: fixed; /* Fixed agar background tidak putus saat scroll */
-        width: 100%;
-        height: 100%;
-        z-index: -1;
+      body {
+        font-family: 'Inter', sans-serif;
       }
-
-      /* Noise Overlay */
-      .noise-overlay {
-        background: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
-        opacity: 0.15;
+      
+      /* Subtle Grid Background Effect (Optional, adds tech vibe) */
+      .grid-bg {
+        background-size: 40px 40px;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
         position: fixed;
         width: 100%;
         height: 100%;
         z-index: -1;
+        top: 0;
+        left: 0;
       }
 
       /* Smooth hover animation */
-      .hover-gradient {
-        transition: all 0.3s ease-in-out;
+      .hover-lift {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
       }
-      .hover-gradient:hover {
-        transform: scale(1.05);
+      .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px -10px rgba(45, 212, 191, 0.3); /* Teal glow */
       }
 
-      /* Smooth Scrolling */
+      /* Text Gradient for Name */
+      .text-gradient {
+        background: linear-gradient(to right, #ffffff, #2dd4bf);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
       html {
         scroll-behavior: smooth;
       }
-    </style>
-    <style>
-      /* Animasi Pop-up */
+      
+      /* Chatbot Popup Animation */
       #chatbot-popup {
         transition: transform 0.3s ease-in-out, opacity 0.3s;
         transform: translateY(100%);
@@ -75,15 +80,14 @@
       }
     </style>
   </head>
-  <body class="relative text-gray-900 min-h-screen">
+  <body class="bg-bgDark text-textMain min-h-screen relative overflow-x-hidden">
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
 
-    <!-- Background -->
-    <div class="absolute inset-0 gradient-bg"></div>
-    <div class="absolute inset-0 noise-overlay"></div>
+    <!-- Background Grid -->
+    <div class="grid-bg"></div>
 
     <!-- Header -->
     <header
@@ -96,7 +100,7 @@
     });
   "
       x-bind:class="visible ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'"
-      class="w-full py-4 bg-gradient-to-r from-gradient1 via-gradient2 to-gradient3 bg-opacity-80 backdrop-blur-lg shadow-lg fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out"
+      class="w-full py-4 bg-bgDark/80 backdrop-blur-md border-b border-borderDark fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out"
     >
       <nav class="container mx-auto flex justify-between items-center px-6">
         <!-- Logo & Title Wrapper -->
@@ -105,36 +109,28 @@
             <img
               src="LOGOW.png"
               alt="Logo"
-              class="h-10 md:h-12 lg:h-14 w-auto"
+              class="h-10 w-auto filter brightness-200 contrast-200 grayscale" 
             />
           </a>
-          <h1 class="text-xl font-bold text-shadow text-left">
+          <h1 class="text-xl font-bold tracking-tight text-white">
             Who’s This Guy?
           </h1>
         </div>
 
-        <!-- Desktop Menu -->
-        <ul class="hidden md:flex gap-6 text-gray-900 font-semibold">
+        <!-- Desktop Menu (Home & Portfolio Removed) -->
+        <ul class="hidden md:flex gap-8 text-sm font-medium text-textMuted">
           <li>
-            <a href="#" class="hover:text-gray-600 transition">Home</a>
-          </li>
-          <li>
-            <a href="#portfolio" class="hover:text-gray-600 transition"
-              >Portfolio</a
-            >
-          </li>
-          <li>
-            <a href="resume.html" class="hover:text-gray-600 transition"
+            <a href="resume.html" class="hover:text-accent transition-colors duration-300"
               >Resume</a
             >
           </li>
           <li>
-            <a href="activity.html" class="hover:text-gray-600 transition"
+            <a href="activity.html" class="hover:text-accent transition-colors duration-300"
               >Activity</a
             >
           </li>
           <li>
-            <a href="contact.html" class="hover:text-gray-600 transition"
+            <a href="contact.html" class="hover:text-accent transition-colors duration-300"
               >Contact</a
             >
           </li>
@@ -143,11 +139,11 @@
         <!-- Mobile Menu Button -->
         <button
           @click="open = !open"
-          class="md:hidden text-gray-900 focus:outline-none z-50 relative"
+          class="md:hidden text-white focus:outline-none z-50 relative"
         >
           <svg
             x-show="!open"
-            class="w-8 h-8"
+            class="w-6 h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -160,46 +156,43 @@
               d="M4 6h16M4 12h16m-7 6h7"
             ></path>
           </svg>
+          <svg
+            x-show="open"
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
         </button>
       </nav>
 
-      <!-- Mobile Menu (Dynamic Island Effect) -->
+      <!-- Mobile Menu (Dark Theme) -->
       <div
         x-show="open"
         @click.away="open = false"
-        class="fixed top-3 left-1/2 transform -translate-x-1/2 w-[90%] max-w-lg bg-gradient-to-r from-gradient1 via-gradient2 to-gradient3 shadow-lg rounded-full z-50 transition-all duration-300 ease-in-out"
-        x-transition:enter="transform transition ease-out duration-300"
-        x-transition:enter-start="scale-50 opacity-0"
-        x-transition:enter-end="scale-100 opacity-100"
-        x-transition:leave="transform transition ease-in duration-300"
-        x-transition:leave-start="scale-100 opacity-100"
-        x-transition:leave-end="scale-50 opacity-0"
+        class="absolute top-full left-0 w-full bg-bgCard border-b border-borderDark shadow-2xl z-40 md:hidden"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 -translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-2"
       >
-        <nav class="px-3 py-2">
-          <ul
-            class="flex flex-row justify-center gap-6 text-gray-900 text-lg font-semibold"
-          >
-            <li>
-              <a
-                href="#"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Home</a
-              >
-            </li>
-            <li>
-              <a
-                href="#portfolio"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Portfolio</a
-              >
-            </li>
+        <nav class="px-6 py-4">
+          <ul class="flex flex-col gap-4 text-textMain font-medium">
             <li>
               <a
                 href="resume.html"
                 @click="open = false"
-                class="hover:text-gray-600 transition"
+                class="block hover:text-accent transition"
                 >Resume</a
               >
             </li>
@@ -207,8 +200,16 @@
               <a
                 href="activity.html"
                 @click="open = false"
-                class="hover:text-gray-600 transition"
+                class="block hover:text-accent transition"
                 >Activity</a
+              >
+            </li>
+            <li>
+              <a
+                href="contact.html"
+                @click="open = false"
+                class="block hover:text-accent transition"
+                >Contact</a
               >
             </li>
           </ul>
@@ -221,81 +222,80 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
 
-    <!-- Chatbot Button -->
+    <!-- Chatbot Button (Teal Accent) -->
     <div class="fixed bottom-6 right-6 z-50">
       <button
         id="chatbot-button"
-        class="bg-gradient-to-r from-gradient3 to-gradient4 hover:from-gradient4 hover:to-gradient3 text-gray-900 font-semibold py-3 px-6 rounded-full shadow-lg hover-gradient flex items-center gap-2"
+        class="bg-accent hover:bg-accentHover text-bgDark font-bold py-3 px-6 rounded-full shadow-lg hover-lift flex items-center gap-2 transition-all"
       >
         <i class="fas fa-comment-dots"></i> Ask Wahyu's AI!
       </button>
     </div>
 
-    <!-- Chatbot Popup -->
+    <!-- Chatbot Popup (Dark Mode) -->
     <div
       id="chatbot-popup"
-      class="fixed bottom-24 right-6 w-96 max-w-full bg-white rounded-lg shadow-lg flex flex-col hidden"
-      style="height: 70vh; z-index: 100"
+      class="fixed bottom-24 right-6 w-96 max-w-full bg-bgCard border border-borderDark rounded-xl shadow-2xl flex flex-col hidden"
+      style="height: 60vh; z-index: 100"
     >
       <!-- Chat Header -->
       <div
-        class="bg-gradient-to-r from-gradient3 to-gradient4 text-white p-4 rounded-t-lg flex justify-between items-center"
+        class="bg-bgCard border-b border-borderDark text-white p-4 rounded-t-xl flex justify-between items-center"
       >
-        <h3 class="font-semibold">Wade</h3>
-        <button id="close-chatbot" class="text-white hover:text-gray-200">
+        <div class="flex items-center gap-2">
+            <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+            <h3 class="font-semibold text-accent">Wade AI</h3>
+        </div>
+        <button id="close-chatbot" class="text-textMuted hover:text-white transition">
           <i class="fas fa-times"></i>
         </button>
       </div>
 
       <!-- Chat Messages -->
-      <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50">
+      <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-bgDark text-sm">
         <!-- Pesan default -->
-        <div class="text-center text-gray-500">
-          Hi! I'm Wade, Wahyu's personal AI. You can ask me anything about Him,
-          or ask me a general question and I'll try to answer it!
+        <div class="text-center text-textMuted my-4">
+            <i class="fas fa-robot text-2xl mb-2 text-accent"></i>
+            <p>Hi! I'm Wade. Ask me anything about Wahyu's projects or skills.</p>
         </div>
         <!-- Loading indicator -->
-        <div id="loading" class="text-center hidden">
-          <i class="fas fa-spinner fa-spin"></i> Connecting to server...
+        <div id="loading" class="text-center hidden text-accent">
+          <i class="fas fa-circle-notch fa-spin"></i> Connecting...
         </div>
       </div>
 
       <!-- Chat Input -->
-      <div class="p-4 bg-gray-100 rounded-b-lg">
+      <div class="p-4 bg-bgCard border-t border-borderDark rounded-b-xl">
         <div class="flex gap-2">
           <input
             id="chat-input"
             type="text"
-            class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gradient3"
+            class="flex-1 p-2 bg-bgDark border border-borderDark rounded-lg text-white focus:outline-none focus:border-accent placeholder-textMuted text-sm"
             placeholder="Type a message..."
           />
           <button
             id="send-message"
-            class="bg-gradient-to-r from-gradient3 to-gradient4 hover:from-gradient4 hover:to-gradient3 text-white font-semibold px-4 rounded-lg"
+            class="bg-accent hover:bg-accentHover text-bgDark font-bold px-4 rounded-lg transition-colors"
           >
-            Send
+            <i class="fas fa-paper-plane"></i>
           </button>
         </div>
         <!-- Rekomendasi Pertanyaan -->
-        <div id="suggestions" class="mt-2 flex flex-wrap gap-2">
-          <button
-            class="suggestion-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300"
-          >
+        <div id="suggestions" class="mt-3 flex flex-wrap gap-2">
+          <button class="suggestion-btn bg-borderDark text-textMuted hover:text-white text-xs px-3 py-1.5 rounded-full hover:bg-gray-700 transition">
             Who is Wahyu?
           </button>
-          <button
-            class="suggestion-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300"
-          >
-            What are Wahyu's skills?
+          <button class="suggestion-btn bg-borderDark text-textMuted hover:text-white text-xs px-3 py-1.5 rounded-full hover:bg-gray-700 transition">
+            My skills?
           </button>
-          <button
-            class="suggestion-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300"
-          >
-            What projects has Wahyu worked on?
+          <button class="suggestion-btn bg-borderDark text-textMuted hover:text-white text-xs px-3 py-1.5 rounded-full hover:bg-gray-700 transition">
+            Show projects
           </button>
         </div>
       </div>
     </div>
+    
+    <!-- Chatbot JS Logic (Same as before) -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const chatbotButton = document.getElementById("chatbot-button");
@@ -307,27 +307,21 @@
         const suggestionButtons = document.querySelectorAll(".suggestion-btn");
         const loadingElement = document.getElementById("loading");
 
-        // Toggle chatbot popup
         chatbotButton.addEventListener("click", () => {
           chatbotPopup.classList.toggle("visible");
           chatbotPopup.classList.toggle("hidden");
         });
 
-        // Close chatbot popup
         closeChatbot.addEventListener("click", () => {
           chatbotPopup.classList.remove("visible");
           chatbotPopup.classList.add("hidden");
         });
 
-        // Send message
         sendMessageButton.addEventListener("click", sendMessage);
         chatInput.addEventListener("keypress", function (event) {
-          if (event.key === "Enter") {
-            sendMessage();
-          }
+          if (event.key === "Enter") sendMessage();
         });
 
-        // Suggestion buttons
         suggestionButtons.forEach((button) => {
           button.addEventListener("click", function () {
             chatInput.value = this.innerText;
@@ -335,60 +329,46 @@
           });
         });
 
-        // Function to send message
         const API_URL = "https://portfolio-wahyu-website.onrender.com/chatbot";
         async function sendMessage() {
           const message = chatInput.value.trim();
           if (!message) return;
 
-          // Add user message to chat
           chatMessages.innerHTML += `
-        <div class="text-right mb-2">
-          <div class="inline-block bg-gradient-to-r from-gradient3 to-gradient4 text-white p-2 rounded-lg">
+        <div class="text-right mb-3">
+          <div class="inline-block bg-accent text-bgDark font-medium p-3 rounded-lg rounded-br-none max-w-[80%] text-left">
             ${message}
           </div>
         </div>
       `;
           chatInput.value = "";
-
-          // Show loading indicator
           loadingElement.classList.remove("hidden");
 
-          // Send message to backend
           try {
             const response = await fetch(API_URL, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ message: message }),
             });
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
+            if (!response.ok) throw new Error(`Status: ${response.status}`);
             const data = await response.json();
-
-            // Hide loading indicator
             loadingElement.classList.add("hidden");
 
-            // Add bot response to chat
             chatMessages.innerHTML += `
-          <div class="text-left mb-2">
-            <div class="inline-block bg-gray-200 text-gray-900 p-2 rounded-lg">
+          <div class="text-left mb-3">
+            <div class="inline-block bg-borderDark text-white p-3 rounded-lg rounded-bl-none max-w-[80%]">
               ${data.response}
             </div>
           </div>
         `;
-            // Scroll to bottom
             chatMessages.scrollTop = chatMessages.scrollHeight;
           } catch (error) {
             console.error("Error:", error);
-            // Hide loading indicator
             loadingElement.classList.add("hidden");
-
             chatMessages.innerHTML += `
-          <div class="text-left mb-2">
-            <div class="inline-block bg-red-100 text-red-900 p-2 rounded-lg">
-              Error: Could not connect to the server. Please try again later.
+          <div class="text-left mb-3">
+            <div class="inline-block bg-red-900/50 text-red-200 border border-red-900 p-3 rounded-lg">
+              Error: Could not connect.
             </div>
           </div>
         `;
@@ -402,80 +382,68 @@
       class="lg:pt-32 md:pt-28 pt-24 pb-12 px-6 md:px-12 min-h-screen flex flex-col md:flex-row items-center justify-center text-center md:text-left"
     >
       <!-- Profile Image -->
-      <div class="w-full md:w-1/2 flex justify-center mb-8 md:mb-0">
-        <div
-          class="relative w-[70%] max-w-xs md:max-w-md rounded-xl shadow-lg overflow-hidden"
-        >
-          <img
-            src="src/assets/profile_picture.jpg"
-            alt="Profile Picture"
-            class="w-full h-auto object-cover"
-          />
+      <div class="w-full md:w-1/2 flex justify-center mb-10 md:mb-0">
+        <div class="relative w-[70%] max-w-xs md:max-w-md group">
+            <!-- Glow effect behind image -->
+            <div class="absolute -inset-1 bg-gradient-to-r from-accent to-blue-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+            <div class="relative rounded-xl overflow-hidden bg-bgCard border border-borderDark p-1">
+                <img
+                src="src/assets/profile_picture.jpg"
+                alt="Profile Picture"
+                class="w-full h-auto object-cover rounded-lg"
+                />
+            </div>
         </div>
       </div>
 
       <!-- Text -->
       <div class="w-full md:w-1/2">
-        <h2 class="text-lg md:text-xl text-gray-700 text-shadow">
+        <h2 class="text-lg md:text-xl text-accent font-medium tracking-wide uppercase mb-2">
           Hello, It's Me
         </h2>
         <h1
-          class="font-extrabold text-gray-900 mt-2 text-shadow"
-          style="font-size: clamp(2rem, 5vw, 4rem)"
+          class="font-bold text-white leading-tight"
+          style="font-size: clamp(3rem, 6vw, 5rem)"
         >
-          Wahyu
+          <span class="text-gradient">Wahyu</span>
         </h1>
-        <h3 class="text-xl md:text-2xl text-gray-700 mt-2 text-shadow">
-          And I'm a <span class="text-gray-900">Data Analyst</span>
+        <h3 class="text-2xl md:text-3xl text-textMuted mt-4 font-light">
+          I'm a <span class="text-white font-semibold border-b-2 border-accent">Data Analyst</span>
         </h3>
 
-        <p
-          class="text-gray-800 mt-4 max-w-lg mx-auto md:mx-0 leading-relaxed text-shadow"
-        >
+        <p class="text-textMuted mt-6 max-w-lg mx-auto md:mx-0 leading-relaxed text-lg">
           I specialize in transforming complex data into clear, actionable
           insights. My work is about finding the hidden stories within numbers
           and using them to drive powerful decisions.
         </p>
-
-        <p class="text-gray-800 mt-4 max-w-lg mx-auto md:mx-0 text-shadow">
-          Beyond analytics, I have a passion for creative problem-solving. This
-          website is a self-taught project that showcases my drive to learn and
-          build. I am committed to mastering my craft and delivering excellence.
-        </p>
-
-        <p class="text-gray-800 mt-4 max-w-lg mx-auto md:mx-0 text-shadow">
-          My curiosity is what keeps me going. I am constantly expanding my
-          skill set, driven by a genuine passion for solving challenges.
-        </p>
-
-        <div class="mt-6 flex flex-col md:flex-row items-center gap-6">
+        
+        <div class="mt-8 flex flex-col md:flex-row items-center gap-6">
           <a
             href="contact.html"
-            class="inline-block px-6 py-3 bg-gradient-to-r from-gradient3 to-gradient4 hover:from-gradient4 hover:to-gradient3 rounded-lg text-gray-900 font-semibold transition duration-300 shadow-md hover-gradient"
+            class="inline-block px-8 py-3 bg-accent hover:bg-accentHover text-bgDark font-bold rounded-lg transition-all duration-300 shadow-[0_0_20px_rgba(45,212,191,0.3)] hover:shadow-[0_0_30px_rgba(45,212,191,0.5)] hover:-translate-y-1"
           >
             Let's Connect
           </a>
 
           <!-- Social Links -->
-          <div class="flex gap-4 items-center">
-            <p class="text-gray-600 text-shadow hidden md:block">Join Me</p>
+          <div class="flex gap-6 items-center">
             <a
               href="https://www.linkedin.com/in/wahyu-laja/"
-              class="text-gray-500 hover:text-gray-900 transition text-shadow text-2xl"
+              class="text-textMuted hover:text-white transition-colors text-2xl"
               title="LinkedIn"
             >
               <i class="fab fa-linkedin"></i>
             </a>
             <a
               href="https://github.com/wahyu-02"
-              class="text-gray-500 hover:text-gray-900 transition text-shadow text-2xl"
+              class="text-textMuted hover:text-white transition-colors text-2xl"
               title="GitHub"
             >
               <i class="fab fa-github"></i>
             </a>
             <a
               href="https://www.instagram.com/wayyulaja"
-              class="text-gray-500 hover:text-gray-900 transition text-shadow text-2xl"
+              class="text-textMuted hover:text-white transition-colors text-2xl"
               title="Instagram"
             >
               <i class="fab fa-instagram"></i>
@@ -485,118 +453,90 @@
       </div>
     </section>
 
-    <!-- PORTFOLIO SECTION (Digabungkan) -->
+    <!-- PORTFOLIO SECTION -->
     <section
       id="portfolio"
-      class="py-20 container mx-auto text-center px-6 md:px-12"
+      class="py-24 container mx-auto px-6 md:px-12 relative"
     >
-      <h2 class="text-4xl font-bold mb-12 text-gray-900 text-shadow">
-        My Portfolio
-      </h2>
+      <!-- Section Header -->
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          Featured <span class="text-accent">Portfolio</span>
+        </h2>
+        <p class="text-textMuted max-w-2xl mx-auto">
+            A selection of my recent work in Data Science, Machine Learning, and Analytics.
+        </p>
+      </div>
+
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- 1. CLIP Model (Computer Vision/Deep Learning) -->
+        <!-- 1. CLIP Model -->
         <a
           href="https://github.com/sains-data/EVALUASI-PERFORMA-MODEL-CLIP-DALAM-KLASIFIKASI-GAMBAR-TEKS-PADA-TERNAK"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/clip.png"
               alt="CLIP Model Project"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            Evaluating CLIP Model for Image & Text Classification
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            Exploring CLIP's performance in zero-shot image-text classification
-            for livestock species.
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              CLIP Model Evaluation
             </h3>
-            <p class="text-gray-800 text-sm">
-              Evaluates CLIP's multimodal model performance in classifying
-              livestock species using RN50, ViT-B/16, ViT-B/32, and ViT-L/14.
-            </p>
-            <p class="text-gray-800 text-sm mt-2">
-              ViT-L/14 achieves the highest accuracy (84%) for species
-              classification.
+            <p class="text-textMuted text-sm leading-relaxed">
+                Exploring CLIP's performance in zero-shot image-text classification for livestock.
             </p>
           </div>
         </a>
 
-        <!-- 2. NLP Text Classification (Deep Learning) -->
+        <!-- 2. NLP Text Classification -->
         <a
           href="https://github.com/wahyu-02/nlp-text-classification-agnews"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/nlp.png"
               alt="NLP Text Classification"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            NLP Text Classification - AGNews
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            Comparing FastText, Transformer, and LSTM for text classification
-            using GloVe embeddings.
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              NLP Text Classification
             </h3>
-            <p class="text-gray-800 text-sm">
-              Evaluates NLP models on AGNews dataset. Transformer achieved 90%
-              accuracy, outperforming FastText and LSTM.
+            <p class="text-textMuted text-sm leading-relaxed">
+                Comparing FastText, Transformer, and LSTM using GloVe embeddings on AGNews.
             </p>
           </div>
         </a>
 
-        <!-- 3. WALMART Sales Prediction (New - Strong ML) -->
+        <!-- 3. WALMART Sales Prediction -->
         <a
           href="https://walmart-sales-prediction-eydj6qjxmxfcjtyhck8unm.streamlit.app/"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/wallmart.png"
               alt="Walmart Sales Prediction"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            Walmart Sales Prediction with XGBoost
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            Predicts weekly sales using XGBoost, analyzing weather, holidays, and
-            store data.
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              Walmart Sales XGBoost
             </h3>
-            <p class="text-gray-800 text-sm">
-              End-to-end regression model with feature engineering (lag features,
-              rolling averages).
-            </p>
-            <p class="text-gray-800 text-sm mt-2">
-              XGBoost outperformed other models with RMSE $3,038. Deployed as an
-              interactive Streamlit dashboard.
+            <p class="text-textMuted text-sm leading-relaxed">
+                Predicts weekly sales using XGBoost. Deployed as an interactive Streamlit dashboard.
             </p>
           </div>
         </a>
@@ -605,31 +545,22 @@
         <a
           href="https://github.com/wahyu-02/Big-Data-Analysis_Amazon-Product"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/big-data.png"
               alt="Big Data Analysis"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            Big Data Analysis
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            Analyzed market trends using Python, Spark, and Hadoop to identify
-            patterns.
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              Big Data Analysis
             </h3>
-            <p class="text-gray-800 text-sm">
-              Processed large datasets using Spark & Hadoop. Includes data
-              cleaning, word count analysis, and visualizations.
+            <p class="text-textMuted text-sm leading-relaxed">
+                Analyzed market trends using Python, Spark, and Hadoop to identify patterns.
             </p>
           </div>
         </a>
@@ -638,30 +569,22 @@
         <a
           href="project_maintenance.html"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/maintenance.png"
               alt="Predictive Maintenance"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            Predictive Maintenance Dashboard
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            Forecasting spare part replacement needs using machine learning.
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              Predictive Maintenance
             </h3>
-            <p class="text-gray-800 text-sm">
-              Random Forest Classifier achieved 100% accuracy in predicting
-              urgency. Includes a real-time dashboard for inventory management.
+            <p class="text-textMuted text-sm leading-relaxed">
+                Forecasting spare part replacement needs using Random Forest (100% accuracy).
             </p>
           </div>
         </a>
@@ -670,30 +593,22 @@
         <a
           href="project_segmentation.html"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/segmentation.png"
               alt="Customer Segmentation"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            Customer Segmentation Analysis
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            Applying K-Means clustering for business segmentation.
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              Customer Segmentation
             </h3>
-            <p class="text-gray-800 text-sm">
-              Identified 5 distinct customer groups based on Age, Income, and
-              Spending Score to target marketing strategies effectively.
+            <p class="text-textMuted text-sm leading-relaxed">
+                Applying K-Means clustering to identify distinct customer groups for marketing.
             </p>
           </div>
         </a>
@@ -702,31 +617,22 @@
         <a
           href="https://github.com/wahyu-02/Potensi-Senyawa-Herbal-sebagai-Inhibitor-HDAC-untuk-Terapi-Kanker-Payudara"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/bio.png"
               alt="HDAC Bioactivity Prediction"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            HDAC Bioactivity Prediction
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            Predicting herbal compound activity for breast cancer therapy using
-            ML.
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              Bioactivity Prediction
             </h3>
-            <p class="text-gray-800 text-sm">
-              Predicted pIC50 values of Indonesian herbal compounds. Analysis
-              includes Tanimoto Similarity to find potent inhibitors.
+            <p class="text-textMuted text-sm leading-relaxed">
+                Predicting herbal compound activity for breast cancer therapy using ML.
             </p>
           </div>
         </a>
@@ -735,31 +641,22 @@
         <a
           href="https://api.rpubs.com/Wahyudiyanto02/1150953"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/montecarlo.png"
               alt="Monte Carlo Stock"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            Monte Carlo Stock Price Simulation
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            Simulating Meta Inc. stock price trajectory using Monte Carlo
-            methods.
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              Monte Carlo Simulation
             </h3>
-            <p class="text-gray-800 text-sm">
-              Analyzed 6-month price trajectory using stochastic modeling,
-              normality tests, and return calculations.
+            <p class="text-textMuted text-sm leading-relaxed">
+                Simulating Meta Inc. stock price trajectory using stochastic modeling.
             </p>
           </div>
         </a>
@@ -768,30 +665,22 @@
         <a
           href="https://rpubs.com/Wahyudiyanto02/1151156"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/arch.png"
               alt="ARCH and GARCH"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            ARCH & GARCH Model for Climate Data
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            Time-series volatility modeling for climate data analysis.
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              ARCH & GARCH Models
             </h3>
-            <p class="text-gray-800 text-sm">
-              Implemented GARCH(1,1) with ARIMA mean model to analyze volatility
-              in global temperature and CO2 emissions.
+            <p class="text-textMuted text-sm leading-relaxed">
+                Time-series volatility modeling for climate data analysis (Temperature & CO2).
             </p>
           </div>
         </a>
@@ -800,30 +689,22 @@
         <a
           href="project_sales.html"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/sales.png"
               alt="Vehicle Sales"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            Vehicle Sales Analysis
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            Data analytics for predicting and analyzing vehicle sales trends.
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              Vehicle Sales Analysis
             </h3>
-            <p class="text-gray-800 text-sm">
-              Analyzed global EV sales trends (2010-2024), exploring market
-              dynamics, powertrain composition, and growth projections.
+            <p class="text-textMuted text-sm leading-relaxed">
+                Data analytics for predicting and analyzing global EV sales trends (2010-2024).
             </p>
           </div>
         </a>
@@ -832,30 +713,22 @@
         <a
           href="https://lookerstudio.google.com/reporting/e9059d91-2b77-43a8-b109-a010435aa31e"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/dashboard.png"
               alt="Renewable Dashboard"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            Renewable Energy Usage Dashboard
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            Analyzing global renewable energy adoption trends (2020-2024).
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              Renewable Energy Dash
             </h3>
-            <p class="text-gray-800 text-sm">
-              Interactive Looker Studio dashboard segmenting energy usage by
-              region, source, and socioeconomic factors.
+            <p class="text-textMuted text-sm leading-relaxed">
+                Analyzing global renewable energy adoption trends using Looker Studio.
             </p>
           </div>
         </a>
@@ -864,30 +737,22 @@
         <a
           href="project_backup.html"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/backup.png"
               alt="Automated Backup"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            Automated Data Backup & Security
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            System to automate file backup and monitor security across servers.
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              Automated Security
             </h3>
-            <p class="text-gray-800 text-sm">
-              Real-time monitoring and automated backup operations. Includes a
-              Streamlit dashboard for security tracking.
+            <p class="text-textMuted text-sm leading-relaxed">
+                System to automate file backup and monitor security across servers.
             </p>
           </div>
         </a>
@@ -896,30 +761,22 @@
         <a
           href="https://github.com/wahyu-02/portfolio_wahyu_website"
           target="_blank"
-          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+          class="group relative bg-bgCard border border-borderDark rounded-2xl overflow-hidden hover:border-accent transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="rounded-lg overflow-hidden">
+          <div class="h-48 overflow-hidden relative">
+            <div class="absolute inset-0 bg-bgDark/20 group-hover:bg-transparent transition-colors z-10"></div>
             <img
               src="src/assets/portfolio/website.png"
               alt="Portfolio Website"
-              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
-            Portfolio Website
-          </h3>
-          <p class="text-gray-700 mt-2 text-center">
-            A personal portfolio website built with HTML, CSS, and TailwindCSS.
-          </p>
-          <div
-            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
-          >
-            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
-              Project Overview
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+              This Portfolio
             </h3>
-            <p class="text-gray-800 text-sm">
-              Responsive, modern design to showcase skills and projects.
-              Open-source on GitHub.
+            <p class="text-textMuted text-sm leading-relaxed">
+                A personal portfolio website built with HTML, CSS, and TailwindCSS.
             </p>
           </div>
         </a>
@@ -928,9 +785,14 @@
 
     <!-- Footer -->
     <footer
-      class="w-full py-4 bg-gradient-to-r from-gradient1 via-gradient2 to-gradient3 bg-opacity-80 backdrop-blur-lg text-center text-gray-700 mt-10"
+      class="w-full py-8 bg-bgCard border-t border-borderDark text-center mt-10"
     >
-      <p>&copy; 2025 Wahyudiyanto | All Rights Reserved</p>
+      <div class="flex justify-center items-center gap-2 mb-2">
+          <div class="h-px w-8 bg-borderDark"></div>
+          <img src="LOGOW.png" alt="Logo" class="h-6 w-auto filter brightness-200 grayscale opacity-50">
+          <div class="h-px w-8 bg-borderDark"></div>
+      </div>
+      <p class="text-textMuted text-sm">&copy; 2025 Wahyudiyanto | All Rights Reserved</p>
     </footer>
   </body>
 </html>

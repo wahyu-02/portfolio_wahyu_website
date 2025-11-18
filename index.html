@@ -33,7 +33,7 @@
           rgba(251, 194, 235, 1) 70%,
           rgba(166, 192, 254, 1) 100%
         );
-        position: absolute;
+        position: fixed; /* Fixed agar background tidak putus saat scroll */
         width: 100%;
         height: 100%;
         z-index: -1;
@@ -43,7 +43,7 @@
       .noise-overlay {
         background: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
         opacity: 0.15;
-        position: absolute;
+        position: fixed;
         width: 100%;
         height: 100%;
         z-index: -1;
@@ -55,6 +55,11 @@
       }
       .hover-gradient:hover {
         transform: scale(1.05);
+      }
+
+      /* Smooth Scrolling */
+      html {
+        scroll-behavior: smooth;
       }
     </style>
     <style>
@@ -111,10 +116,10 @@
         <!-- Desktop Menu -->
         <ul class="hidden md:flex gap-6 text-gray-900 font-semibold">
           <li>
-            <a href="index.html" class="hover:text-gray-600 transition">Home</a>
+            <a href="#" class="hover:text-gray-600 transition">Home</a>
           </li>
           <li>
-            <a href="portfolio.html" class="hover:text-gray-600 transition"
+            <a href="#portfolio" class="hover:text-gray-600 transition"
               >Portfolio</a
             >
           </li>
@@ -176,7 +181,7 @@
           >
             <li>
               <a
-                href="index.html"
+                href="#"
                 @click="open = false"
                 class="hover:text-gray-600 transition"
                 >Home</a
@@ -184,7 +189,7 @@
             </li>
             <li>
               <a
-                href="portfolio.html"
+                href="#portfolio"
                 @click="open = false"
                 class="hover:text-gray-600 transition"
                 >Portfolio</a
@@ -204,14 +209,6 @@
                 @click="open = false"
                 class="hover:text-gray-600 transition"
                 >Activity</a
-              >
-            </li>
-            <li>
-              <a
-                href="contact.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Contact</a
               >
             </li>
           </ul>
@@ -405,7 +402,7 @@
       class="lg:pt-32 md:pt-28 pt-24 pb-12 px-6 md:px-12 min-h-screen flex flex-col md:flex-row items-center justify-center text-center md:text-left"
     >
       <!-- Profile Image -->
-      <div class="w-full md:w-1/2 flex justify-center">
+      <div class="w-full md:w-1/2 flex justify-center mb-8 md:mb-0">
         <div
           class="relative w-[70%] max-w-xs md:max-w-md rounded-xl shadow-lg overflow-hidden"
         >
@@ -418,7 +415,7 @@
       </div>
 
       <!-- Text -->
-<div class="w-full md:w-1/2 mt-8 md:mt-0">
+      <div class="w-full md:w-1/2">
         <h2 class="text-lg md:text-xl text-gray-700 text-shadow">
           Hello, It's Me
         </h2>
@@ -435,47 +432,497 @@
         <p
           class="text-gray-800 mt-4 max-w-lg mx-auto md:mx-0 leading-relaxed text-shadow"
         >
-          I specialize in transforming complex data into clear, actionable insights. My work is about finding the hidden stories within numbers and using them to drive powerful decisions.
+          I specialize in transforming complex data into clear, actionable
+          insights. My work is about finding the hidden stories within numbers
+          and using them to drive powerful decisions.
         </p>
 
         <p class="text-gray-800 mt-4 max-w-lg mx-auto md:mx-0 text-shadow">
-          Beyond analytics, I have a passion for creative problem-solving. This website is a self-taught project that showcases my drive to learn and build. I am committed to mastering my craft and delivering excellence.
+          Beyond analytics, I have a passion for creative problem-solving. This
+          website is a self-taught project that showcases my drive to learn and
+          build. I am committed to mastering my craft and delivering excellence.
         </p>
 
         <p class="text-gray-800 mt-4 max-w-lg mx-auto md:mx-0 text-shadow">
-          My curiosity is what keeps me going. I am constantly expanding my skill set, driven by a genuine passion for solving challenges.
+          My curiosity is what keeps me going. I am constantly expanding my
+          skill set, driven by a genuine passion for solving challenges.
         </p>
 
-        <a
-          href="contact.html"
-          class="mt-6 inline-block px-6 py-3 bg-gradient-to-r from-gradient3 to-gradient4 hover:from-gradient4 hover:to-gradient3 rounded-lg text-gray-900 font-semibold transition duration-300 shadow-md hover-gradient"
-        >
-          Let's Connect
-        </a>
-      </div>
+        <div class="mt-6 flex flex-col md:flex-row items-center gap-6">
+          <a
+            href="contact.html"
+            class="inline-block px-6 py-3 bg-gradient-to-r from-gradient3 to-gradient4 hover:from-gradient4 hover:to-gradient3 rounded-lg text-gray-900 font-semibold transition duration-300 shadow-md hover-gradient"
+          >
+            Let's Connect
+          </a>
 
-        <!-- Social Links -->
-        <div class="mt-4 flex gap-4 justify-center md:justify-start">
-          <p class="text-gray-600 text-shadow">Join Me</p>
-          <a
-            href="https://www.linkedin.com/in/wahyu-laja/"
-            class="text-gray-500 hover:text-gray-900 transition text-shadow"
-          >
-            <i class="fab fa-linkedin"></i> LinkedIn
-          </a>
-          <a
-            href="https://github.com/wahyu-02"
-            class="text-gray-500 hover:text-gray-900 transition text-shadow"
-          >
-            <i class="fab fa-github"></i> GitHub
-          </a>
-          <a
-            href="https://www.instagram.com/wayyulaja"
-            class="text-gray-500 hover:text-gray-900 transition text-shadow"
-          >
-            <i class="fab fa-twitter"></i> Instagram
-          </a>
+          <!-- Social Links -->
+          <div class="flex gap-4 items-center">
+            <p class="text-gray-600 text-shadow hidden md:block">Join Me</p>
+            <a
+              href="https://www.linkedin.com/in/wahyu-laja/"
+              class="text-gray-500 hover:text-gray-900 transition text-shadow text-2xl"
+              title="LinkedIn"
+            >
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a
+              href="https://github.com/wahyu-02"
+              class="text-gray-500 hover:text-gray-900 transition text-shadow text-2xl"
+              title="GitHub"
+            >
+              <i class="fab fa-github"></i>
+            </a>
+            <a
+              href="https://www.instagram.com/wayyulaja"
+              class="text-gray-500 hover:text-gray-900 transition text-shadow text-2xl"
+              title="Instagram"
+            >
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO SECTION (Digabungkan) -->
+    <section
+      id="portfolio"
+      class="py-20 container mx-auto text-center px-6 md:px-12"
+    >
+      <h2 class="text-4xl font-bold mb-12 text-gray-900 text-shadow">
+        My Portfolio
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- 1. CLIP Model (Computer Vision/Deep Learning) -->
+        <a
+          href="https://github.com/sains-data/EVALUASI-PERFORMA-MODEL-CLIP-DALAM-KLASIFIKASI-GAMBAR-TEKS-PADA-TERNAK"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/clip.png"
+              alt="CLIP Model Project"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            Evaluating CLIP Model for Image & Text Classification
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            Exploring CLIP's performance in zero-shot image-text classification
+            for livestock species.
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              Evaluates CLIP's multimodal model performance in classifying
+              livestock species using RN50, ViT-B/16, ViT-B/32, and ViT-L/14.
+            </p>
+            <p class="text-gray-800 text-sm mt-2">
+              ViT-L/14 achieves the highest accuracy (84%) for species
+              classification.
+            </p>
+          </div>
+        </a>
+
+        <!-- 2. NLP Text Classification (Deep Learning) -->
+        <a
+          href="https://github.com/wahyu-02/nlp-text-classification-agnews"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/nlp.png"
+              alt="NLP Text Classification"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            NLP Text Classification - AGNews
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            Comparing FastText, Transformer, and LSTM for text classification
+            using GloVe embeddings.
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              Evaluates NLP models on AGNews dataset. Transformer achieved 90%
+              accuracy, outperforming FastText and LSTM.
+            </p>
+          </div>
+        </a>
+
+        <!-- 3. WALMART Sales Prediction (New - Strong ML) -->
+        <a
+          href="https://walmart-sales-prediction-eydj6qjxmxfcjtyhck8unm.streamlit.app/"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/wallmart.png"
+              alt="Walmart Sales Prediction"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            Walmart Sales Prediction with XGBoost
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            Predicts weekly sales using XGBoost, analyzing weather, holidays, and
+            store data.
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              End-to-end regression model with feature engineering (lag features,
+              rolling averages).
+            </p>
+            <p class="text-gray-800 text-sm mt-2">
+              XGBoost outperformed other models with RMSE $3,038. Deployed as an
+              interactive Streamlit dashboard.
+            </p>
+          </div>
+        </a>
+
+        <!-- 4. Big Data Analysis -->
+        <a
+          href="https://github.com/wahyu-02/Big-Data-Analysis_Amazon-Product"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/big-data.png"
+              alt="Big Data Analysis"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            Big Data Analysis
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            Analyzed market trends using Python, Spark, and Hadoop to identify
+            patterns.
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              Processed large datasets using Spark & Hadoop. Includes data
+              cleaning, word count analysis, and visualizations.
+            </p>
+          </div>
+        </a>
+
+        <!-- 5. Predictive Maintenance -->
+        <a
+          href="project_maintenance.html"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/maintenance.png"
+              alt="Predictive Maintenance"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            Predictive Maintenance Dashboard
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            Forecasting spare part replacement needs using machine learning.
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              Random Forest Classifier achieved 100% accuracy in predicting
+              urgency. Includes a real-time dashboard for inventory management.
+            </p>
+          </div>
+        </a>
+
+        <!-- 6. Customer Segmentation -->
+        <a
+          href="project_segmentation.html"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/segmentation.png"
+              alt="Customer Segmentation"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            Customer Segmentation Analysis
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            Applying K-Means clustering for business segmentation.
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              Identified 5 distinct customer groups based on Age, Income, and
+              Spending Score to target marketing strategies effectively.
+            </p>
+          </div>
+        </a>
+
+        <!-- 7. HDAC Bioactivity -->
+        <a
+          href="https://github.com/wahyu-02/Potensi-Senyawa-Herbal-sebagai-Inhibitor-HDAC-untuk-Terapi-Kanker-Payudara"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/bio.png"
+              alt="HDAC Bioactivity Prediction"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            HDAC Bioactivity Prediction
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            Predicting herbal compound activity for breast cancer therapy using
+            ML.
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              Predicted pIC50 values of Indonesian herbal compounds. Analysis
+              includes Tanimoto Similarity to find potent inhibitors.
+            </p>
+          </div>
+        </a>
+
+        <!-- 8. Monte Carlo Simulation -->
+        <a
+          href="https://api.rpubs.com/Wahyudiyanto02/1150953"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/montecarlo.png"
+              alt="Monte Carlo Stock"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            Monte Carlo Stock Price Simulation
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            Simulating Meta Inc. stock price trajectory using Monte Carlo
+            methods.
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              Analyzed 6-month price trajectory using stochastic modeling,
+              normality tests, and return calculations.
+            </p>
+          </div>
+        </a>
+
+        <!-- 9. ARCH & GARCH -->
+        <a
+          href="https://rpubs.com/Wahyudiyanto02/1151156"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/arch.png"
+              alt="ARCH and GARCH"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            ARCH & GARCH Model for Climate Data
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            Time-series volatility modeling for climate data analysis.
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              Implemented GARCH(1,1) with ARIMA mean model to analyze volatility
+              in global temperature and CO2 emissions.
+            </p>
+          </div>
+        </a>
+
+        <!-- 10. Vehicle Sales Analysis -->
+        <a
+          href="project_sales.html"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/sales.png"
+              alt="Vehicle Sales"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            Vehicle Sales Analysis
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            Data analytics for predicting and analyzing vehicle sales trends.
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              Analyzed global EV sales trends (2010-2024), exploring market
+              dynamics, powertrain composition, and growth projections.
+            </p>
+          </div>
+        </a>
+
+        <!-- 11. Renewable Dashboard -->
+        <a
+          href="https://lookerstudio.google.com/reporting/e9059d91-2b77-43a8-b109-a010435aa31e"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/dashboard.png"
+              alt="Renewable Dashboard"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            Renewable Energy Usage Dashboard
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            Analyzing global renewable energy adoption trends (2020-2024).
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              Interactive Looker Studio dashboard segmenting energy usage by
+              region, source, and socioeconomic factors.
+            </p>
+          </div>
+        </a>
+
+        <!-- 12. Automated Backup -->
+        <a
+          href="project_backup.html"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/backup.png"
+              alt="Automated Backup"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            Automated Data Backup & Security
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            System to automate file backup and monitor security across servers.
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              Real-time monitoring and automated backup operations. Includes a
+              Streamlit dashboard for security tracking.
+            </p>
+          </div>
+        </a>
+
+        <!-- 13. Portfolio Website -->
+        <a
+          href="https://github.com/wahyu-02/portfolio_wahyu_website"
+          target="_blank"
+          class="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 block overflow-hidden"
+        >
+          <div class="rounded-lg overflow-hidden">
+            <img
+              src="src/assets/portfolio/website.png"
+              alt="Portfolio Website"
+              class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <h3 class="text-xl font-semibold text-center mt-4 text-gray-900">
+            Portfolio Website
+          </h3>
+          <p class="text-gray-700 mt-2 text-center">
+            A personal portfolio website built with HTML, CSS, and TailwindCSS.
+          </p>
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white p-6 rounded-lg opacity-0 hover:opacity-90 transition-opacity duration-300 flex flex-col justify-center shadow-lg"
+          >
+            <h3 class="text-2xl font-semibold text-gray-900 text-center mb-4">
+              Project Overview
+            </h3>
+            <p class="text-gray-800 text-sm">
+              Responsive, modern design to showcase skills and projects.
+              Open-source on GitHub.
+            </p>
+          </div>
+        </a>
       </div>
     </section>
 
@@ -487,4 +934,3 @@
     </footer>
   </body>
 </html>
-

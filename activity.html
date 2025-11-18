@@ -3,76 +3,92 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Activity</title>
+    <title>Activity - Wahyudiyanto</title>
     <link rel="icon" type="image/png" href="LOGOW.png" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              gradient1: "#f8e8dc",
-              gradient2: "#bdd4e7",
-              gradient3: "#fbc2eb",
-              gradient4: "#a6c0fe",
+              // Netlify-inspired Dark Theme Colors
+              bgDark: "#0d1117",       // Very dark blue/black background
+              bgCard: "#161b22",       // Slightly lighter for cards/sections
+              textMain: "#ffffff",     // White text
+              textMuted: "#8b949e",    // Gray text for descriptions
+              accent: "#2dd4bf",       // Teal/Cyan accent (Buttons/Highlights)
+              accentHover: "#14b8a6",  // Darker teal for hover
+              borderDark: "#30363d",   // Border color for inputs/cards
             },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            }
           },
         },
       };
     </script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-      /* Background Gradient */
-      .gradient-bg {
-        background: linear-gradient(
-          135deg,
-          rgba(248, 232, 220, 1) 0%,
-          rgba(189, 212, 231, 1) 40%,
-          rgba(251, 194, 235, 1) 70%,
-          rgba(166, 192, 254, 1) 100%
-        );
-        position: absolute;
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      
+      /* Subtle Grid Background Effect */
+      .grid-bg {
+        background-size: 40px 40px;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        position: fixed;
         width: 100%;
         height: 100%;
         z-index: -1;
+        top: 0;
+        left: 0;
       }
 
-      /* Noise Overlay */
-      .noise-overlay {
-        background: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
-        opacity: 0.15;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
+      /* Slideshow Transition */
+      .fade-enter-active, .fade-leave-active {
+        transition: opacity 0.5s ease;
+      }
+      .fade-enter-from, .fade-leave-to {
+        opacity: 0;
+      }
+
+      /* Chatbot Popup Animation */
+      #chatbot-popup {
+        transition: transform 0.3s ease-in-out, opacity 0.3s;
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      #chatbot-popup.visible {
+        transform: translateY(0);
+        opacity: 1;
       }
     </style>
   </head>
-  <body class="relative text-gray-900 min-h-screen">
-    <!-- Background -->
-    <div class="absolute inset-0 gradient-bg"></div>
-    <div class="absolute inset-0 noise-overlay"></div>
-
+  <body class="bg-bgDark text-textMain min-h-screen relative overflow-x-hidden">
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
 
+    <!-- Background Grid -->
+    <div class="grid-bg"></div>
+
     <!-- Header -->
     <header
       x-data="{ open: false, lastScroll: 0, visible: true }"
       x-init="
-    window.addEventListener('scroll', () => {
-      let currentScroll = window.pageYOffset;
-      visible = (currentScroll < lastScroll) || (currentScroll < 50);
-      lastScroll = currentScroll;
-    });
-  "
+        window.addEventListener('scroll', () => {
+          let currentScroll = window.pageYOffset;
+          visible = (currentScroll < lastScroll) || (currentScroll < 50);
+          lastScroll = currentScroll;
+        });
+      "
       x-bind:class="visible ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'"
-      class="w-full py-4 bg-gradient-to-r from-gradient1 via-gradient2 to-gradient3 bg-opacity-80 backdrop-blur-lg shadow-lg fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out"
+      class="w-full py-4 bg-bgDark/80 backdrop-blur-md border-b border-borderDark fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out"
     >
       <nav class="container mx-auto flex justify-between items-center px-6">
         <!-- Logo & Title Wrapper -->
@@ -81,36 +97,28 @@
             <img
               src="LOGOW.png"
               alt="Logo"
-              class="h-10 md:h-12 lg:h-14 w-auto"
+              class="h-10 w-auto filter brightness-200 contrast-200 grayscale" 
             />
           </a>
-          <h1 class="text-xl font-bold text-shadow text-left">
+          <h1 class="text-xl font-bold tracking-tight text-white">
             Beyond Data Science
           </h1>
         </div>
 
-        <!-- Desktop Menu -->
-        <ul class="hidden md:flex gap-6 text-gray-900 font-semibold">
+        <!-- Desktop Menu (Simplified) -->
+        <ul class="hidden md:flex gap-8 text-sm font-medium text-textMuted">
           <li>
-            <a href="index.html" class="hover:text-gray-600 transition">Home</a>
-          </li>
-          <li>
-            <a href="portfolio.html" class="hover:text-gray-600 transition"
-              >Portfolio</a
-            >
-          </li>
-          <li>
-            <a href="resume.html" class="hover:text-gray-600 transition"
+            <a href="resume.html" class="hover:text-accent transition-colors duration-300"
               >Resume</a
             >
           </li>
           <li>
-            <a href="activity.html" class="hover:text-gray-600 transition"
+            <a href="activity.html" class="text-accent transition-colors duration-300"
               >Activity</a
             >
           </li>
           <li>
-            <a href="contact.html" class="hover:text-gray-600 transition"
+            <a href="contact.html" class="hover:text-accent transition-colors duration-300"
               >Contact</a
             >
           </li>
@@ -119,167 +127,75 @@
         <!-- Mobile Menu Button -->
         <button
           @click="open = !open"
-          class="md:hidden text-gray-900 focus:outline-none z-50 relative"
+          class="md:hidden text-white focus:outline-none z-50 relative"
         >
-          <svg
-            x-show="!open"
-            class="w-8 h-8"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            ></path>
-          </svg>
+          <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+          <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </nav>
 
-      <!-- Mobile Menu (Dynamic Island Effect) -->
+      <!-- Mobile Menu -->
       <div
         x-show="open"
         @click.away="open = false"
-        class="fixed top-3 left-1/2 transform -translate-x-1/2 w-[90%] max-w-lg bg-gradient-to-r from-gradient1 via-gradient2 to-gradient3 shadow-lg rounded-full z-50 transition-all duration-300 ease-in-out"
-        x-transition:enter="transform transition ease-out duration-300"
-        x-transition:enter-start="scale-50 opacity-0"
-        x-transition:enter-end="scale-100 opacity-100"
-        x-transition:leave="transform transition ease-in duration-300"
-        x-transition:leave-start="scale-100 opacity-100"
-        x-transition:leave-end="scale-50 opacity-0"
+        class="absolute top-full left-0 w-full bg-bgCard border-b border-borderDark shadow-2xl z-40 md:hidden"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 -translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-2"
       >
-        <nav class="px-3 py-2">
-          <ul
-            class="flex flex-row justify-center gap-6 text-gray-900 text-lg font-semibold"
-          >
-            <li>
-              <a
-                href="index.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Home</a
-              >
-            </li>
-            <li>
-              <a
-                href="portfolio.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Portfolio</a
-              >
-            </li>
-            <li>
-              <a
-                href="resume.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Resume</a
-              >
-            </li>
-            <li>
-              <a
-                href="activity.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Activity</a
-              >
-            </li>
-            <li>
-              <a
-                href="contact.html"
-                @click="open = false"
-                class="hover:text-gray-600 transition"
-                >Contact</a
-              >
-            </li>
+        <nav class="px-6 py-4">
+          <ul class="flex flex-col gap-4 text-textMain font-medium">
+            <li><a href="resume.html" class="block hover:text-accent transition">Resume</a></li>
+            <li><a href="activity.html" class="block text-accent transition">Activity</a></li>
+            <li><a href="contact.html" class="block hover:text-accent transition">Contact</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
     <!-- Chatbot Button -->
     <div class="fixed bottom-6 right-6 z-50">
-      <button
-        id="chatbot-button"
-        class="bg-gradient-to-r from-gradient3 to-gradient4 hover:from-gradient4 hover:to-gradient3 text-gray-900 font-semibold py-3 px-6 rounded-full shadow-lg hover-gradient flex items-center gap-2"
-      >
+      <button id="chatbot-button" class="bg-accent hover:bg-accentHover text-bgDark font-bold py-3 px-6 rounded-full shadow-lg flex items-center gap-2 transition-all hover:-translate-y-1">
         <i class="fas fa-comment-dots"></i> Ask Wahyu's AI!
       </button>
     </div>
 
-    <!-- Chatbot Popup -->
-    <div
-      id="chatbot-popup"
-      class="fixed bottom-24 right-6 w-96 max-w-full bg-white rounded-lg shadow-lg flex flex-col hidden"
-      style="height: 70vh; z-index: 100"
-    >
+    <!-- Chatbot Popup (Dark Mode) -->
+    <div id="chatbot-popup" class="fixed bottom-24 right-6 w-96 max-w-full bg-bgCard border border-borderDark rounded-xl shadow-2xl flex flex-col hidden" style="height: 60vh; z-index: 100">
       <!-- Chat Header -->
-      <div
-        class="bg-gradient-to-r from-gradient3 to-gradient4 text-white p-4 rounded-t-lg flex justify-between items-center"
-      >
-        <h3 class="font-semibold">Wade</h3>
-        <button id="close-chatbot" class="text-white hover:text-gray-200">
-          <i class="fas fa-times"></i>
-        </button>
+      <div class="bg-bgCard border-b border-borderDark text-white p-4 rounded-t-xl flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+            <h3 class="font-semibold text-accent">Wade AI</h3>
+        </div>
+        <button id="close-chatbot" class="text-textMuted hover:text-white transition"><i class="fas fa-times"></i></button>
       </div>
-
       <!-- Chat Messages -->
-      <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50">
-        <!-- Pesan default -->
-        <div class="text-center text-gray-500">
-          Hi! I'm Wade, Wahyu's personal AI. You can ask me anything about Him,
-          or ask me a general question and I'll try to answer it!
+      <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-bgDark text-sm">
+        <div class="text-center text-textMuted my-4">
+            <i class="fas fa-robot text-2xl mb-2 text-accent"></i>
+            <p>Hi! I'm Wade. Ask me anything about Wahyu's activities.</p>
         </div>
-        <!-- Loading indicator -->
-        <div id="loading" class="text-center hidden">
-          <i class="fas fa-spinner fa-spin"></i> Connecting to server...
-        </div>
+        <div id="loading" class="text-center hidden text-accent"><i class="fas fa-circle-notch fa-spin"></i> Connecting...</div>
       </div>
-
       <!-- Chat Input -->
-      <div class="p-4 bg-gray-100 rounded-b-lg">
+      <div class="p-4 bg-bgCard border-t border-borderDark rounded-b-xl">
         <div class="flex gap-2">
-          <input
-            id="chat-input"
-            type="text"
-            class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gradient3"
-            placeholder="Type a message..."
-          />
-          <button
-            id="send-message"
-            class="bg-gradient-to-r from-gradient3 to-gradient4 hover:from-gradient4 hover:to-gradient3 text-white font-semibold px-4 rounded-lg"
-          >
-            Send
-          </button>
+          <input id="chat-input" type="text" class="flex-1 p-2 bg-bgDark border border-borderDark rounded-lg text-white focus:outline-none focus:border-accent placeholder-textMuted text-sm" placeholder="Type a message..." />
+          <button id="send-message" class="bg-accent hover:bg-accentHover text-bgDark font-bold px-4 rounded-lg transition-colors"><i class="fas fa-paper-plane"></i></button>
         </div>
-        <!-- Rekomendasi Pertanyaan -->
-        <div id="suggestions" class="mt-2 flex flex-wrap gap-2">
-          <button
-            class="suggestion-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300"
-          >
-            Who is Wahyu?
-          </button>
-          <button
-            class="suggestion-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300"
-          >
-            What are Wahyu's skills?
-          </button>
-          <button
-            class="suggestion-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300"
-          >
-            What projects has Wahyu worked on?
-          </button>
+        <div id="suggestions" class="mt-3 flex flex-wrap gap-2">
+            <button class="suggestion-btn bg-borderDark text-textMuted hover:text-white text-xs px-3 py-1.5 rounded-full hover:bg-gray-700 transition">Tell me about ITERA Mengajar</button>
         </div>
       </div>
     </div>
+    
+    <!-- Chatbot Logic -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const chatbotButton = document.getElementById("chatbot-button");
@@ -291,91 +207,29 @@
         const suggestionButtons = document.querySelectorAll(".suggestion-btn");
         const loadingElement = document.getElementById("loading");
 
-        // Toggle chatbot popup
-        chatbotButton.addEventListener("click", () => {
-          chatbotPopup.classList.toggle("visible");
-          chatbotPopup.classList.toggle("hidden");
-        });
-
-        // Close chatbot popup
-        closeChatbot.addEventListener("click", () => {
-          chatbotPopup.classList.remove("visible");
-          chatbotPopup.classList.add("hidden");
-        });
-
-        // Send message
+        chatbotButton.addEventListener("click", () => { chatbotPopup.classList.toggle("visible"); chatbotPopup.classList.toggle("hidden"); });
+        closeChatbot.addEventListener("click", () => { chatbotPopup.classList.remove("visible"); chatbotPopup.classList.add("hidden"); });
         sendMessageButton.addEventListener("click", sendMessage);
-        chatInput.addEventListener("keypress", function (event) {
-          if (event.key === "Enter") {
-            sendMessage();
-          }
-        });
+        chatInput.addEventListener("keypress", function (event) { if (event.key === "Enter") sendMessage(); });
+        suggestionButtons.forEach((button) => { button.addEventListener("click", function () { chatInput.value = this.innerText; sendMessage(); }); });
 
-        // Suggestion buttons
-        suggestionButtons.forEach((button) => {
-          button.addEventListener("click", function () {
-            chatInput.value = this.innerText;
-            sendMessage();
-          });
-        });
-
-        // Function to send message
         const API_URL = "https://portfolio-wahyu-website.onrender.com/chatbot";
         async function sendMessage() {
           const message = chatInput.value.trim();
           if (!message) return;
-
-          // Add user message to chat
-          chatMessages.innerHTML += `
-        <div class="text-right mb-2">
-          <div class="inline-block bg-gradient-to-r from-gradient3 to-gradient4 text-white p-2 rounded-lg">
-            ${message}
-          </div>
-        </div>
-      `;
+          chatMessages.innerHTML += `<div class="text-right mb-3"><div class="inline-block bg-accent text-bgDark font-medium p-3 rounded-lg rounded-br-none max-w-[80%] text-left">${message}</div></div>`;
           chatInput.value = "";
-
-          // Show loading indicator
           loadingElement.classList.remove("hidden");
-
-          // Send message to backend
           try {
-            const response = await fetch(API_URL, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ message: message }),
-            });
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
+            const response = await fetch(API_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: message }), });
+            if (!response.ok) throw new Error(`Status: ${response.status}`);
             const data = await response.json();
-
-            // Hide loading indicator
             loadingElement.classList.add("hidden");
-
-            // Add bot response to chat
-            chatMessages.innerHTML += `
-          <div class="text-left mb-2">
-            <div class="inline-block bg-gray-200 text-gray-900 p-2 rounded-lg">
-              ${data.response}
-            </div>
-          </div>
-        `;
-            // Scroll to bottom
+            chatMessages.innerHTML += `<div class="text-left mb-3"><div class="inline-block bg-borderDark text-white p-3 rounded-lg rounded-bl-none max-w-[80%]">${data.response}</div></div>`;
             chatMessages.scrollTop = chatMessages.scrollHeight;
           } catch (error) {
-            console.error("Error:", error);
-            // Hide loading indicator
             loadingElement.classList.add("hidden");
-
-            chatMessages.innerHTML += `
-          <div class="text-left mb-2">
-            <div class="inline-block bg-red-100 text-red-900 p-2 rounded-lg">
-              Error: Could not connect to the server. Please try again later.
-            </div>
-          </div>
-        `;
+            chatMessages.innerHTML += `<div class="text-left mb-3"><div class="inline-block bg-red-900/50 text-red-200 border border-red-900 p-3 rounded-lg">Error: Could not connect.</div></div>`;
           }
         }
       });
@@ -383,984 +237,343 @@
 
     <!-- Main Content -->
     <main class="container mx-auto py-32 px-6 md:px-12">
-      <h2 class="text-3xl font-bold text-center mb-10 text-gray-900">
-        Activities
-      </h2>
-
-      <!-- Activity 2: Slideshow (Gambar di Atas, Deskripsi di Bawah) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['activity2_1.jpg', 'activity2_2.jpg', 'activity2_3.jpg', 'activity2_4.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="Activity Image"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
-        </div>
-
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            🎨 Head of Creative Media Department
-          </h3>
-          <p class="text-gray-700">
-            As the <strong>Head of Creative Media</strong> at the
-            <strong>Data Science Student Association (HMSD), ITERA</strong>, I
-            led three main divisions:
-            <strong>Media & Content Specialist</strong>,
-            <strong>Publication & Documentation</strong>, and
-            <strong>Visual Design</strong>. Our team of 19 members worked
-            together to enhance the organization's branding through engaging
-            content on Instagram, TikTok, and YouTube.
-          </p>
-          <p class="text-gray-700 mt-2">
-            Throughout 2024, we successfully developed numerous creative
-            campaigns, including promotional videos, event documentation, and
-            interactive educational content to improve community engagement and
-            organizational visibility.
-          </p>
-          <p class="mt-4 text-gray-700">
-            <strong>Duration:</strong> January - November 2024
-          </p>
-        </div>
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-white mb-4">
+          Activities & <span class="text-accent">Experience</span>
+        </h2>
+        <p class="text-textMuted max-w-2xl mx-auto">
+            Beyond data and code, I actively participate in leadership roles, community service, and creative competitions.
+        </p>
       </div>
 
-      <!-- Activity 1: Slideshow (Gambar di Atas, Deskripsi di Bawah) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['activity1_1.jpg', 'activity1_2.jpg', 'activity1_3.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="Activity Image"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
+      <!-- 1. Activity: Head of Creative Media -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['activity2_1.jpg', 'activity2_2.jpg', 'activity2_3.jpg', 'activity2_4.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="Activity Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">🎨 Head of Creative Media Department</h3>
+                <p class="text-textMuted leading-relaxed">
+                    As the <span class="text-white font-semibold">Head of Creative Media</span> at <span class="text-accent">HMSD ITERA</span>, I led three divisions: Media & Content, Publication, and Visual Design. Our 19-member team revolutionized the organization's digital presence.
+                </p>
+                <p class="text-textMuted mt-2 leading-relaxed">
+                    We successfully executed creative campaigns, enhancing brand visibility through Instagram, TikTok, and YouTube content.
+                </p>
+                <div class="mt-6 inline-block px-4 py-2 bg-bgDark border border-borderDark rounded-full text-sm text-accent font-mono">
+                    Jan - Nov 2024
+                </div>
+            </div>
         </div>
+      </section>
 
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            🏆 1st Place in Videography & Best Presentation
-          </h3>
-          <p class="text-gray-700">
-            This event was organized by the
-            <strong>Pertamina Workers Union, Marketing Unit III</strong> in
-            Bandung on <strong>November 1-3, 2024</strong>. It focused on
-            discussing Indonesia's national energy sovereignty issues.
-          </p>
-          <p class="text-gray-700 mt-2">
-            During this competition, I won both <strong>1st place</strong> in
-            videography and <strong>Best Presentation</strong>, focusing on how
-            <strong>renewable energy</strong> can enhance Indonesia's energy
-            independence.
-          </p>
-          <p class="text-gray-700 mt-2">
-            To strengthen my arguments in both the
-            <strong>video production</strong> and <strong>presentation</strong>,
-            I ensured that my topic was <strong>rich in data analysis</strong>.
-            I utilized
-            <strong
-              >quantitative insights, statistical models, and visual
-              analytics</strong
-            >
-            to provide a solid foundation for every claim. This helped in
-            demonstrating
-            <strong>the potential and feasibility of renewable energy</strong>
-            in Indonesia, making my arguments more compelling and
-            evidence-driven.
-          </p>
-          <p class="mt-4 text-gray-700">
-            <strong>Date:</strong> November 1-3, 2024
-          </p>
+      <!-- 2. Activity: Videography Winner -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['activity1_1.jpg', 'activity1_2.jpg', 'activity1_3.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="Activity Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">🏆 1st Place Videography & Best Presentation</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Organized by Pertamina Workers Union. I won 1st place by advocating for renewable energy as a path to national independence.
+                </p>
+                <p class="text-textMuted mt-2 leading-relaxed">
+                    I utilized <span class="text-accent">data-driven insights</span> to back my arguments, proving the feasibility of green energy transition in Indonesia.
+                </p>
+                <div class="mt-6 inline-block px-4 py-2 bg-bgDark border border-borderDark rounded-full text-sm text-accent font-mono">
+                    Nov 2024
+                </div>
+            </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Activity: Pertamina Study Visit Slideshow (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['PERTAMINA_1.jpg', 'PERTAMINA_2.jpg', 'PERTAMINA_3.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="Pertamina Study Visit Image"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
+      <!-- 3. Activity: Pertamina Visit -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['PERTAMINA_1.jpg', 'PERTAMINA_2.jpg', 'PERTAMINA_3.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="Pertamina Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">⛽ Pertamina Study Visit</h3>
+                <p class="text-textMuted leading-relaxed">
+                    A deep dive into the energy distribution process at <span class="text-white">FT Bandung Group Padalarang</span>. We learned about the supply chain management from upstream to downstream.
+                </p>
+                <div class="mt-6 inline-block px-4 py-2 bg-bgDark border border-borderDark rounded-full text-sm text-accent font-mono">
+                    Nov 7, 2024
+                </div>
+            </div>
         </div>
+      </section>
 
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            ⛽ Pertamina Study Visit - FT Bandung Group Padalarang
-          </h3>
-          <p class="text-gray-700">
-            On <strong>November 7, 2024</strong>, we had the opportunity to
-            visit <strong>Pertamina at FT Bandung Group Padalarang</strong>.
-            During this study visit, we learned about the
-            <strong>distribution process</strong> of Pertamina products from
-            upstream to downstream.
-          </p>
-          <p class="text-gray-700 mt-2">
-            The visit provided insights into how energy products are managed
-            efficiently and safely, ensuring their availability across
-            Indonesia.
-          </p>
+      <!-- 4. Activity: Seminar Nasional -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['PRESENTASI_1.jpg', 'PRESENTASI_2.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="Presentation Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">🎤 National Energy Seminar</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Presented <span class="text-white italic">"Langkah Berani Menuju Energi Mandiri"</span> at the Pertamina competition. I argued for phasing out fuel subsidies to fund renewable energy infrastructure.
+                </p>
+            </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Activity: Seminar Nasional Energi Presentation (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['PRESENTASI_1.jpg', 'PRESENTASI_2.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="Presentation Image"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
+      <!-- 5. Activity: Senat KM-ITERA -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['SENAT_1.jpg', 'SENAT_2.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="Senat Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">🏛️ Senat KM-ITERA</h3>
+                <p class="text-textMuted leading-relaxed">
+                   As a member of the <span class="text-accent">External x Medinfo Division</span>, I managed student advocacy, external relations, and information dissemination, serving as a bridge between students and the rectorate.
+                </p>
+            </div>
         </div>
+      </section>
 
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            🎤 Seminar Nasional Energi - Pertamina
-          </h3>
-          <p class="text-gray-700">
-            This presentation was part of the
-            <strong>National Energy Seminar Competition</strong> organized by
-            <strong>Pertamina</strong>. I represented
-            <strong>Institut Teknologi Sumatera (ITERA)</strong> in this event,
-            along with other finalists from various universities across
-            Indonesia.
-          </p>
-          <p class="text-gray-700 mt-2">
-            The topic I presented was
-            <strong
-              >"Langkah Berani Menuju Energi Mandiri dan Berkelanjutan"</strong
-            >. The presentation focused on how
-            <strong>phasing out fuel subsidies</strong> can be a great
-            opportunity to boost renewable energy development and ensure
-            long-term economic resilience.
-          </p>
-          <p class="text-gray-700 mt-2">
-            Key points discussed:
-            <br />✔ Reducing subsidies to encourage investment in renewable
-            energy. <br />✔ Strengthening economic sustainability through energy
-            independence. <br />✔ Policies and strategies to support a green
-            transition.
-          </p>
+      <!-- 6. Activity: ITERA Mengajar -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['IM_1.jpg', 'IM_2.jpg', 'IM_3.jpg', 'IM_4.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="Teaching Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">📚 ITERA Mengajar 2023</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Supporting <span class="text-white">SDG Goal #4</span> by providing quality education to children in South Lampung. We taught character building, technology, and science experiments.
+                </p>
+                <div class="mt-6 inline-block px-4 py-2 bg-bgDark border border-borderDark rounded-full text-sm text-accent font-mono">
+                    2023
+                </div>
+            </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Activity: Senat KM-ITERA (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['SENAT_1.jpg', 'SENAT_2.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="Senat KM-ITERA Activity"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
+      <!-- 7. Activity: Humas ITERA -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['HUMAS_1.jpg', 'HUMAS_2.jpg', 'HUMAS_3.jpg', 'HUMAS_4.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="Humas Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">🎥 Humas ITERA Internship</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Videography Division Intern. I documented major campus events, honing my production skills and networking with university officials.
+                </p>
+            </div>
         </div>
+      </section>
 
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            🏛️ Senat KM-ITERA - Divisi Eksternal x Medinfo
-          </h3>
-          <p class="text-gray-700">
-            <strong>Senat KM-ITERA</strong> (Senat Keluarga Mahasiswa ITERA) is
-            the student senate responsible for determining major policies in
-            student life and accommodating student aspirations at
-            <strong>Institut Teknologi Sumatera (ITERA)</strong>.
-          </p>
-          <p class="text-gray-700 mt-2">
-            The senate functions as a non-structural student organization under
-            the guidance of the Vice Rector for Student Affairs.
-          </p>
-          <p class="text-gray-700 mt-2">
-            I am part of the <strong>Divisi Eksternal x Medinfo</strong>, where
-            we engage in: <br />✔ Managing student communication with external
-            parties. <br />✔ Disseminating important information related to
-            student policies. <br />✔ Supporting media and information
-            initiatives within the organization.
-          </p>
-          <p class="text-gray-700 mt-4">
-            Being involved in this role has given me valuable experience in
-            leadership, public relations, and media management while
-            contributing to student advocacy and organizational transparency.
-          </p>
+      <!-- 8. Activity: BIDATA -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['BIDATA_1.jpg', 'BIDATA_2.jpg', 'BIDATA_3.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="BIDATA Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">📚 BIDATA (Bina Anak Data)</h3>
+                <p class="text-textMuted leading-relaxed">
+                    A 3-week community service program educating children on general knowledge, creativity, and environmental awareness at Banjar Agung Village.
+                </p>
+            </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Activity: ITERA Mengajar 2023 Slideshow (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['IM_1.jpg', 'IM_2.jpg', 'IM_3.jpg', 'IM_4.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="ITERA Mengajar Image"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
+      <!-- 9. Activity: DATAPUDI 2024 -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['MBAKAT.jpg', 'MBAKAT_2.jpg', 'MBAKAT_3.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="Datapudi Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">🎉 DATAPUDI 2024</h3>
+                <p class="text-textMuted leading-relaxed">
+                    The grand anniversary celebration of Data Science ITERA. I was awarded as the <span class="text-accent font-bold">Most Talented Data Science Student</span> during this event.
+                </p>
+                <div class="mt-6 inline-block px-4 py-2 bg-bgDark border border-borderDark rounded-full text-sm text-accent font-mono">
+                    May 1, 2024
+                </div>
+            </div>
         </div>
+      </section>
 
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            📚 ITERA Mengajar 2023
-          </h3>
-          <p class="text-gray-700">
-            <strong>ITERA Mengajar</strong> is an educational expedition program
-            initiated by <strong>Keluarga Mahasiswa (KM) ITERA</strong> since
-            2018. In 2023, under the <strong>Wangsabatih Cabinet</strong>, the
-            program took place in Bandar Lampung and South Lampung.
-          </p>
-          <p class="text-gray-700 mt-2">
-            <strong>Objective:</strong> Improve education quality for children
-            and support <strong>SDG Goal #4</strong> (Quality Education).
-          </p>
-          <p class="text-gray-700 mt-2">
-            <strong>Locations:</strong>
-            <br />🏫 TPA Baitul Makmur <br />🏡 Daarul Amanah Orphanage <br />📍
-            Gunung Sulah Subdistrict <br />🏠 Suban Village, Merbau Mataram
-            District
-          </p>
-          <p class="text-gray-700 mt-2">
-            <strong>Key Programs:</strong> Inclusive Education with Character
-            and Social Skills. Topics included: <br />✔ Creativity & Basic
-            Entrepreneurship <br />✔ Dreams & Aspirations <br />✔ General
-            Education <br />✔ National Reading Movement <br />✔ Technology
-            Education <br />✔ Science Experiments
-          </p>
-          <p class="text-gray-700 mt-4">
-            The program ended with a <strong>Grand Closing Night</strong> in
-            Suban Village, featuring talent performances and a food security
-            awareness session for local residents.
-          </p>
+      <!-- 10. Activity: KKN 2023 -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['KKN_1.png', 'KKN_2.jpg', 'KKN_3.png'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="KKN Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">🌍 KKN 2023 - Gedung Wani Timur</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Led a village numbering project for <span class="text-white">815 houses</span> and conducted educational programs for local children in East Lampung.
+                </p>
+                 <div class="mt-6 inline-block px-4 py-2 bg-bgDark border border-borderDark rounded-full text-sm text-accent font-mono">
+                    Dec 2023 - Jan 2024
+                </div>
+            </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Activity: Humas ITERA Internship (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['HUMAS_1.jpg', 'HUMAS_2.jpg', 'HUMAS_3.jpg', 'HUMAS_4.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="Humas ITERA Internship"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
+      <!-- 11. Activity: Halo China -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['HCHINA_1.jpg', 'HCHINA_2.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="Halo China Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">🎥 Halo China Video Competition</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Celebrating the 10th Anniversary of the China-Indonesia partnership. I secured <span class="text-accent font-bold">2nd Place</span> in this national video competition organized by FPCI.
+                </p>
+            </div>
         </div>
+      </section>
 
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            🎥 Internship at Humas ITERA - Videography Division
-          </h3>
-          <p class="text-gray-700">
-            I had the opportunity to join the
-            <strong>Humas ITERA Internship Program</strong> in the
-            <strong>Videography Division</strong> for one semester.
-          </p>
-          <p class="text-gray-700 mt-2">
-            During this period, our team was responsible for
-            <strong>documenting all campus events</strong> at
-            <strong>Institut Teknologi Sumatera (ITERA)</strong>.
-          </p>
-          <p class="text-gray-700 mt-2">
-            This internship provided me with valuable experiences, allowing me
-            to:
-            <br />✔ Work on various video production projects. <br />✔ Meet new
-            friends and expand my professional network. <br />✔ Interact with
-            important figures within and outside the university. <br />✔ Gain
-            opportunities that not everyone gets.
-          </p>
-          <p class="text-gray-700 mt-4">
-            Being part of this program has significantly improved my videography
-            and communication skills while also strengthening my passion for
-            media production.
-          </p>
+      <!-- 12. Activity: DOREMI -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['DOREMI_1.jpg', 'DOREMI_2.jpg', 'DOREMI_3.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="DOREMI Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">❤️ DOREMI Blood Donation</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Organized a blood donation drive at ITERA to raise awareness and contribute to the local blood supply, fostering community care.
+                </p>
+                <div class="mt-6 inline-block px-4 py-2 bg-bgDark border border-borderDark rounded-full text-sm text-accent font-mono">
+                    May 3, 2023
+                </div>
+            </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Activity: BIDATA Slideshow (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['BIDATA_1.jpg', 'BIDATA_2.jpg', 'BIDATA_3.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="BIDATA Activity Image"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
+      <!-- 13. Activity: First Gathering MC -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['MC_1.jpg', 'MC_2.jpg', 'MC_3.jpg', 'MC_4.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="MC Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">🎤 First Gathering Sains Data - MC</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Served as the Master of Ceremony for the opening and panel discussions, facilitating networking between students and faculty.
+                </p>
+                 <div class="mt-6 inline-block px-4 py-2 bg-bgDark border border-borderDark rounded-full text-sm text-accent font-mono">
+                    July 21, 2023
+                </div>
+            </div>
         </div>
+      </section>
 
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            📚 BIDATA (Bina Anak Data)
-          </h3>
-          <p class="text-gray-700">
-            BIDATA is a community service event by Data Science students at
-            Banjar Agung Village. The event aims to educate children about
-            general knowledge, creativity, and environmental awareness.
-          </p>
-          <p class="text-gray-700 mt-2">
-            The program runs for three weeks:
-            <br />1️⃣ Week 1: General knowledge activities and introductions.
-            <br />2️⃣ Week 2: Creative projects with students. <br />3️⃣ Week 3:
-            Health and environment focus, including group exercise and cleanup.
-          </p>
-          <p class="mt-4 text-gray-700">
-            <strong>Goal:</strong> Inspire children to be smart, creative, and
-            care for the environment.
-          </p>
+      <!-- 14. Activity: Drama Performance -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['DRAMA_1.jpg', 'DRAMA_2.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="Drama Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">🎭 Drama Performance</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Took the lead role in the drama performance representing the 2021 cohort, showcasing creativity and storytelling to entertain the gathering.
+                </p>
+            </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Activity: DATAPUDI 2024 (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['MBAKAT.jpg', 'MBAKAT_2.jpg', 'MBAKAT_3.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="DATAPUDI 2024 Image"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
+      <!-- 15. Activity: Climate Change -->
+      <section class="bg-bgCard border border-borderDark rounded-2xl p-8 mb-12 hover:border-accent transition-colors duration-300">
+        <div class="flex flex-col items-center">
+            <div x-data="{ currentImage: 0, images: ['CLIMATE_1.jpg', 'CLIMATE_2.jpg'] }" class="relative w-full max-w-4xl mb-8">
+                <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-borderDark">
+                    <img :src="'src/assets/activity/' + images[currentImage]" class="w-full h-full object-cover" alt="Climate Image" />
+                </div>
+                <button @click="currentImage = (currentImage - 1 + images.length) % images.length" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">◀</button>
+                <button @click="currentImage = (currentImage + 1) % images.length" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-bgDark/80 hover:bg-accent hover:text-bgDark border border-borderDark text-white p-3 rounded-full transition-all backdrop-blur-sm">▶</button>
+            </div>
+            <div class="text-center max-w-3xl">
+                <h3 class="text-2xl font-bold mb-4 text-white">🌍 Climate Change Video Competition</h3>
+                <p class="text-textMuted leading-relaxed">
+                    Awarded <span class="text-accent font-bold">2nd Place</span> by the Rector of ITERA for a short video proposing innovative solutions to climate change.
+                </p>
+                 <div class="mt-6 inline-block px-4 py-2 bg-bgDark border border-borderDark rounded-full text-sm text-accent font-mono">
+                    Dec 2, 2022
+                </div>
+            </div>
         </div>
+      </section>
 
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            🎉 DATAPUDI 2024 - Dies Natalis Sains Data
-          </h3>
-          <p class="text-gray-700">
-            <strong>DATAPUDI 2024</strong> (Dies Natalis Himpunan dan Program
-            Studi Sains Data) was a grand celebration organized by the Data
-            Science Student Association at
-            <strong>Institut Teknologi Sumatera</strong>.
-          </p>
-          <p class="text-gray-700 mt-2">
-            <strong>Theme:</strong> "Membuka Cakrawala Baru: Menyambut Era Sains
-            Data"
-          </p>
-          <p class="text-gray-700 mt-2">
-            The main event was held on
-            <strong>Wednesday, May 1, 2024</strong> at the
-            <strong>GK2 Parking Lot, ITERA</strong>, bringing together students
-            and faculty members to celebrate achievements and advancements in
-            Data Science.
-          </p>
-          <p class="text-gray-700 mt-2">
-            🏆 I was honored to be recognized as the
-            <strong>Most Talented Data Science Student</strong> during the
-            event.
-          </p>
-          <p class="text-gray-700 mt-4">
-            The event was filled with exciting activities, performances, and
-            community engagements that showcased the talents and spirit of the
-            Data Science community.
-          </p>
-        </div>
-      </div>
-
-      <!-- Activity: KKN 2023 Slideshow (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['KKN_1.png', 'KKN_2.jpg', 'KKN_3.png'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="KKN 2023 Image"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
-        </div>
-
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            🌍 KKN 2023 - Gedung Wani Timur
-          </h3>
-          <p class="text-gray-700">
-            <strong>Kuliah Kerja Nyata (KKN) 2023</strong> was held in
-            <strong>Gedung Wani Timur, Margatiga, East Lampung</strong> from
-            <strong>December 28, 2023, to January 25, 2024</strong>. The program
-            involved social observations and analysis to implement relevant
-            community projects.
-          </p>
-          <p class="text-gray-700 mt-2">
-            <strong>Main Program:</strong> House Numbering Project <br />🏠
-            Numbering <strong>815 houses</strong> in the village, with steps
-            including: <br />✔ Community Socialization <br />✔ House Mapping
-            <br />✔ Number Painting
-          </p>
-          <p class="text-gray-700 mt-2">
-            Other programs included <strong>village development</strong> and
-            <strong>educational support</strong> through "Mega Edukasi,"
-            encouraging children's learning enthusiasm.
-          </p>
-          <p class="text-gray-700 mt-4">
-            This KKN experience strengthened our ability to engage in social
-            environments and contribute to real community service.
-          </p>
-        </div>
-      </div>
-
-      <!-- Activity: Halo China Video Competition (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['HCHINA_1.jpg', 'HCHINA_2.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="Halo China Competition Image"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
-        </div>
-
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            🎥 Halo China Video Competition 2023
-          </h3>
-          <p class="text-gray-700">
-            The <strong>Halo China Video Competition 2023</strong> was organized
-            by FPCI in collaboration with the Chinese Embassy in Jakarta, China
-            Public Diplomacy Association, and CGTN.
-          </p>
-          <p class="text-gray-700 mt-2">
-            <strong>Theme:</strong> "Together Towards Future: Celebrating 10th
-            Anniversary of China-Indonesia Comprehensive Strategic Partnership
-            and the Belt and Road Initiative."
-          </p>
-          <p class="text-gray-700 mt-2">
-            This competition aimed to highlight the growing partnership between
-            China and Indonesia, showcasing creative video content from
-            participants across the country.
-          </p>
-          <p class="text-gray-700 mt-4">
-            <strong>🏆 Achievement:</strong> 2nd Place Winner
-          </p>
-        </div>
-      </div>
-
-      <!-- Activity: DOREMI Slideshow (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['DOREMI_1.jpg', 'DOREMI_2.jpg', 'DOREMI_3.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="DOREMI Activity Image"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
-        </div>
-
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            ❤️ DOREMI (Donor Darah Bersama Peduli)
-          </h3>
-          <p class="text-gray-700">
-            DOREMI is a blood donation event organized by the Community Service
-            Division of the Data Science Student Association. This event aims to
-            raise awareness about the importance of blood donation and encourage
-            participation from students and the general public.
-          </p>
-          <p class="text-gray-700 mt-2">
-            <strong>Theme:</strong> "Peduli Sesama Melalui Donor Darah" (Caring
-            for Others Through Blood Donation)
-          </p>
-          <p class="text-gray-700 mt-2">
-            <strong>Goals:</strong>
-            <br />✔ Raise awareness about the benefits of blood donation.
-            <br />✔ Provide an accessible location and facilities for donors.
-            <br />✔ Contribute to blood supply for those in need. <br />✔
-            Strengthen relationships between students, PMI, and the community.
-          </p>
-          <p class="text-gray-700 mt-4">
-            <strong>📅 Date:</strong> Wednesday, May 3, 2023 <br /><strong
-              >⏰ Time:</strong
-            >
-            13:00 - Until Finished <br /><strong>📍 Location:</strong> Institut
-            Teknologi Sumatera
-          </p>
-        </div>
-      </div>
-
-      <!-- Activity: First Gathering Sains Data (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['MC_1.jpg', 'MC_2.jpg', 'MC_3.jpg', 'MC_4.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="MC First Gathering Sains Data"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
-        </div>
-
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            🎤 First Gathering Sains Data 2023
-          </h3>
-          <p class="text-gray-700">
-            On <strong>July 21, 2023</strong>, the
-            <strong>First Gathering Sains Data</strong> was held, bringing
-            together students from the 2020 to 2022 cohorts along with faculty
-            members from the Data Science program.
-          </p>
-          <p class="text-gray-700 mt-2">
-            I had the honor of being the <strong>formal MC</strong> for the
-            event’s opening session and discussion panel.
-          </p>
-          <p class="text-gray-700 mt-2">
-            The event covered key discussions about:
-            <br />✔ The Data Science study program <br />✔ Data Science projects
-            and their real-world applications <br />✔ Career opportunities as a
-            Data Scientist
-          </p>
-          <p class="text-gray-700 mt-4">
-            This gathering served as a great platform for networking, knowledge
-            sharing, and strengthening connections within the Data Science
-            community.
-          </p>
-        </div>
-      </div>
-
-      <!-- Activity: First Gathering Sains Data - Drama Performance (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['DRAMA_1.jpg', 'DRAMA_2.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="Drama Performance - First Gathering"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
-        </div>
-
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            🎭 First Gathering Sains Data 2023 - Drama Performance
-          </h3>
-          <p class="text-gray-700">
-            As part of the <strong>First Gathering Sains Data 2023</strong>, I
-            had the opportunity to not only serve as the
-            <strong>Master of Ceremony (MC)</strong> for the event but also to
-            take on the <strong>lead role in the drama performance</strong>,
-            representing the <strong>2021 cohort</strong>.
-          </p>
-          <p class="text-gray-700 mt-2">
-            The drama performance was one of the highlights of the gathering,
-            showcasing creativity, teamwork, and storytelling skills while
-            bringing a unique entertainment aspect to the event.
-          </p>
-          <p class="text-gray-700 mt-2">
-            This experience allowed me to step out of my comfort zone, develop
-            confidence in public speaking and performance, and strengthen my
-            connection with fellow students and faculty members.
-          </p>
-        </div>
-      </div>
-
-      <!-- Activity: Climate Change Video Competition (Images on Top, Description Below) -->
-      <div class="flex flex-col items-center mb-20">
-        <!-- Slideshow Container -->
-        <div
-          x-data="{ currentImage: 0, images: ['CLIMATE_1.jpg', 'CLIMATE_2.jpg'] }"
-          class="relative w-full max-w-4xl"
-        >
-          <div
-            class="relative w-full aspect-[16/9] rounded-lg shadow-lg overflow-hidden"
-          >
-            <img
-              :src="'src/assets/activity/' + images[currentImage]"
-              loading="lazy"
-              class="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
-              alt="Climate Change Video Competition"
-            />
-          </div>
-
-          <!-- Left Navigation Button -->
-          <button
-            @click="currentImage = (currentImage - 1 + images.length) % images.length"
-            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ◀
-          </button>
-
-          <!-- Right Navigation Button -->
-          <button
-            @click="currentImage = (currentImage + 1) % images.length"
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 p-3 rounded-full hover:bg-gray-600 text-white"
-          >
-            ▶
-          </button>
-        </div>
-
-        <!-- Activity Description -->
-        <div class="mt-8 text-center max-w-3xl">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-900">
-            🌍 Climate Change Video Competition 2022
-          </h3>
-          <p class="text-gray-700">
-            On <strong>December 2, 2022</strong>, the Rector of
-            <strong>Institut Teknologi Sumatera (ITERA)</strong>,
-            <strong>Prof. Dr. I Nyoman Pugeg Aryantha</strong>, awarded the
-            winners of the Climate Change: Idea and Solution short video
-            competition.
-          </p>
-          <p class="text-gray-700 mt-2">
-            The competition aimed to raise awareness about climate change and
-            promote innovative solutions among students.
-          </p>
-          <p class="text-gray-700 mt-2">
-            🏆 <strong>I secured 2nd place in this competition.</strong>
-          </p>
-          <p class="text-gray-700 mt-2">
-            The winners were selected by the Head of UPT MKG and directly by the
-            Rector. As part of the prize, all six finalists also received
-            funding for the Duolingo International Language Certificate,
-            enabling students to participate in future international programs.
-          </p>
-        </div>
-      </div>
     </main>
 
     <!-- Footer -->
-    <footer
-      class="w-full py-4 bg-gradient-to-r from-gradient1 via-gradient2 to-gradient3 bg-opacity-80 backdrop-blur-lg text-center text-gray-700 mt-10"
-    >
-      <p>&copy; 2025 Wahyudiyanto | All Rights Reserved</p>
-      <a href="home.html" class="text-blue-500 hover:underline">Back to Home</a>
+    <footer class="w-full py-8 bg-bgCard border-t border-borderDark text-center mt-10">
+      <div class="flex justify-center items-center gap-2 mb-2">
+          <div class="h-px w-8 bg-borderDark"></div>
+          <img src="LOGOW.png" alt="Logo" class="h-6 w-auto filter brightness-200 grayscale opacity-50">
+          <div class="h-px w-8 bg-borderDark"></div>
+      </div>
+      <p class="text-textMuted text-sm">&copy; 2025 Wahyudiyanto | All Rights Reserved</p>
     </footer>
   </body>
 </html>

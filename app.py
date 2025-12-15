@@ -27,7 +27,7 @@ genai.configure(api_key=API_KEY)
 
 # Konfigurasi Model
 generation_config = {
-    "temperature": 0.3,       # Tetap rendah agar faktual
+    "temperature": 0.4,       # Tetap rendah agar faktual
     "top_p": 0.95,
     "top_k": 40,
     "max_output_tokens": 1000, 
@@ -43,9 +43,8 @@ safety_settings = [
 ]
 
 # Inisialisasi Model 
-# NOTE: Menggunakan gemini-1.5-flash karena versi 2.5 belum stabil/publik
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
+    model_name="gemini-2.5-flash",
     generation_config=generation_config,
     safety_settings=safety_settings
 )
@@ -53,11 +52,8 @@ model = genai.GenerativeModel(
 # --- KNOWLEDGE BASE (Pure English for Consistency) ---
 CONTEXT_DATA = """
 [PROFILE]
-Name: Wahyudiyanto (Wade).
+Name: Wahyu (Wade).
 Email: lajazwade@gmail.com
-Contact: +62 853 9844 8838
-Links: linkedin.com/in/wahyudiyanto | github.com/wahyu-02 | wahyudata.web.id
-Location: Indonesia.
 
 [PROFESSIONAL SUMMARY]
 Detail-oriented Data Analyst specializing in Blockchain Analytics and Financial Modeling.

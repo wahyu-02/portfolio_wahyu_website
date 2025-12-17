@@ -187,45 +187,92 @@
       </div>
     </div>
     
-    <!-- Chatbot Logic -->
+    <!-- Chatbot JS Logic -->
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const chatbotButton = document.getElementById("chatbot-button");
-        const chatbotPopup = document.getElementById("chatbot-popup");
-        const closeChatbot = document.getElementById("close-chatbot");
-        const chatInput = document.getElementById("chat-input");
-        const sendMessageButton = document.getElementById("send-message");
-        const chatMessages = document.getElementById("chat-messages");
-        const suggestionButtons = document.querySelectorAll(".suggestion-btn");
-        const loadingElement = document.getElementById("loading");
-
-        chatbotButton.addEventListener("click", () => { chatbotPopup.classList.toggle("visible"); chatbotPopup.classList.toggle("hidden"); });
-        closeChatbot.addEventListener("click", () => { chatbotPopup.classList.remove("visible"); chatbotPopup.classList.add("hidden"); });
-        sendMessageButton.addEventListener("click", sendMessage);
-        chatInput.addEventListener("keypress", function (event) { if (event.key === "Enter") sendMessage(); });
-        suggestionButtons.forEach((button) => { button.addEventListener("click", function () { chatInput.value = this.innerText; sendMessage(); }); });
-
-        const API_URL = "https://wahyudata-1051632639521.us-central1.run.app/chat";
-        async function sendMessage() {
-          const message = chatInput.value.trim();
-          if (!message) return;
-          chatMessages.innerHTML += `<div class="text-right mb-3"><div class="inline-block bg-accent text-bgDark font-medium p-3 rounded-lg rounded-br-none max-w-[80%] text-left">${message}</div></div>`;
-          chatInput.value = "";
-          loadingElement.classList.remove("hidden");
-          try {
-            const response = await fetch(API_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: message }), });
-            if (!response.ok) throw new Error(`Status: ${response.status}`);
-            const data = await response.json();
-            loadingElement.classList.add("hidden");
-            chatMessages.innerHTML += `<div class="text-left mb-3"><div class="inline-block bg-borderDark text-white p-3 rounded-lg rounded-bl-none max-w-[80%]">${data.response}</div></div>`;
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-          } catch (error) {
-            loadingElement.classList.add("hidden");
-            chatMessages.innerHTML += `<div class="text-left mb-3"><div class="inline-block bg-red-900/50 text-red-200 border border-red-900 p-3 rounded-lg">Error: Could not connect.</div></div>`;
-          }
-        }
-      });
-    </script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const chatbotButton = document.getElementById("chatbot-button");
+            const chatbotPopup = document.getElementById("chatbot-popup");
+            const closeChatbot = document.getElementById("close-chatbot");
+            const chatInput = document.getElementById("chat-input");
+            const sendMessageButton = document.getElementById("send-message");
+            const chatMessages = document.getElementById("chat-messages");
+            const suggestionButtons = document.querySelectorAll(".suggestion-btn");
+            const loadingElement = document.getElementById("loading");
+    
+            chatbotButton.addEventListener("click", () => {
+              chatbotPopup.classList.toggle("visible");
+              chatbotPopup.classList.toggle("hidden");
+            });
+    
+            closeChatbot.addEventListener("click", () => {
+              chatbotPopup.classList.remove("visible");
+              chatbotPopup.classList.add("hidden");
+            });
+    
+            sendMessageButton.addEventListener("click", sendMessage);
+            chatInput.addEventListener("keypress", function (event) {
+              if (event.key === "Enter") sendMessage();
+            });
+    
+            suggestionButtons.forEach((button) => {
+              button.addEventListener("click", function () {
+                chatInput.value = this.innerText;
+                sendMessage();
+              });
+            });
+    
+            // PERBAIKAN 1: Tambahkan /chat di belakang URL
+            const API_URL = "https://wahyudata-1051632639521.us-central1.run.app/chat";
+            
+            async function sendMessage() {
+              const message = chatInput.value.trim();
+              if (!message) return;
+    
+              chatMessages.innerHTML += `
+            <div class="text-right mb-3">
+              <div class="inline-block bg-accent text-bgDark font-medium p-3 rounded-lg rounded-br-none max-w-[80%] text-left">
+                ${message}
+              </div>
+            </div>
+          `;
+              chatInput.value = "";
+              loadingElement.classList.remove("hidden");
+    
+              try {
+                const response = await fetch(API_URL, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ message: message }),
+                });
+                
+                if (!response.ok) throw new Error(`Status: ${response.status}`);
+                
+                const data = await response.json();
+                loadingElement.classList.add("hidden");
+    
+                // PERBAIKAN 2: Gunakan data.reply (sesuai app.py), bukan data.response
+                chatMessages.innerHTML += `
+              <div class="text-left mb-3">
+                <div class="inline-block bg-borderDark text-white p-3 rounded-lg rounded-bl-none max-w-[80%]">
+                  ${data.reply} 
+                </div>
+              </div>
+            `;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+              } catch (error) {
+                console.error("Error:", error);
+                loadingElement.classList.add("hidden");
+                chatMessages.innerHTML += `
+              <div class="text-left mb-3">
+                <div class="inline-block bg-red-900/50 text-red-200 border border-red-900 p-3 rounded-lg">
+                  Error: Could not connect to AI.
+                </div>
+              </div>
+            `;
+              }
+            }
+          });
+        </script>
 
     <!-- Contact Section -->
     <section id="contact" class="py-32 container mx-auto px-6 md:px-12">

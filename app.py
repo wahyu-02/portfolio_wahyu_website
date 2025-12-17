@@ -41,9 +41,9 @@ safety_settings = [
     {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
 ]
 
-# Initialize Model (Fixed version to 1.5-flash)
+# Initialize Model
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash", 
+    model_name="gemini-2.5-flash", 
     generation_config=generation_config,
     safety_settings=safety_settings
 )
@@ -54,7 +54,7 @@ CONTEXT_DATA = """
 Name: Wahyudiyanto (Wade).
 Role: Data Scientist & Web3 Engineer.
 Email: lajazwade@gmail.com
-Links: linkedin.com/in/wahyudiyanto | github.com/wahyu-02 | wahyudata.web.id
+Links: https://www.linkedin.com/in/wadelaja | github.com/wahyu-02 | wahyudata.web.id
 Location: Makassar, Indonesia (Open to Remote).
 
 [CURRENT STATUS - READ CAREFULLY]
